@@ -38,7 +38,7 @@ void TIMER0_Init(Timer0Mode_type mode)
 }
 void Timer0_change(Timer0Scaler_type scaler)
 {
-	TCCR0&=0XF8;//0b11111000
+	TCCR0&=0XF8;/* 0b11111000 */
 	TCCR0|=scaler;
 }
 
@@ -112,7 +112,7 @@ void TIMER2_Init(Timer2Mode_type mode)
 }
 void Timer2_change(Timer2Scaler_type scaler)
 {
-	TCCR2&=0XF8;//0b11111000
+	TCCR2&=0XF8;/* 0b11111000 */
 	TCCR2|=scaler;
 }
 void TIMER2_OC0Mode(OC2Mode_type mode)

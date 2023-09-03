@@ -178,9 +178,9 @@ en_adc_status_t adc_read(en_adc_channel_t en_a_adc_channel)
     en_adc_status_t en_adc_status_retval = ADC_OK;
 
     if(
-            (FALSE == init_success) ||                                              // ADC not init
-            (en_a_adc_channel >= ADC_IN_USE_CHANNELS) ||                            // Invalid channel
-            (ADC_MODE_OFF == st_g_adc_config_arr[en_a_adc_channel].en_adc_mode)     // Invalid channel
+            (FALSE == init_success) ||                                              /*  ADC not init */
+            (en_a_adc_channel >= ADC_IN_USE_CHANNELS) ||                            /*  Invalid channel */
+            (ADC_MODE_OFF == st_g_adc_config_arr[en_a_adc_channel].en_adc_mode)     /*  Invalid channel */
     )
     {
         en_adc_status_retval = ADC_ERROR;
@@ -190,19 +190,19 @@ en_adc_status_t adc_read(en_adc_channel_t en_a_adc_channel)
         /* update mux value to select proper ADC Channel */
 
         /* set mux value - bit 0 */
-//        WRITE_BIT(ADC_ADMUX_REG, ADC_ADMUX_MUX0_BIT, GET_BIT(en_a_adc_channel, ADC_ADMUX_MUX0_BIT));
+/*         WRITE_BIT(ADC_ADMUX_REG, ADC_ADMUX_MUX0_BIT, GET_BIT(en_a_adc_channel, ADC_ADMUX_MUX0_BIT)); */
 
         /* set mux value - bit 1 */
-//        WRITE_BIT(ADC_ADMUX_REG, ADC_ADMUX_MUX1_BIT, GET_BIT(en_a_adc_channel, ADC_ADMUX_MUX1_BIT));
+/*         WRITE_BIT(ADC_ADMUX_REG, ADC_ADMUX_MUX1_BIT, GET_BIT(en_a_adc_channel, ADC_ADMUX_MUX1_BIT)); */
 
         /* set mux value - bit 2 */
-//        WRITE_BIT(ADC_ADMUX_REG, ADC_ADMUX_MUX2_BIT, GET_BIT(en_a_adc_channel, ADC_ADMUX_MUX2_BIT));
+/*         WRITE_BIT(ADC_ADMUX_REG, ADC_ADMUX_MUX2_BIT, GET_BIT(en_a_adc_channel, ADC_ADMUX_MUX2_BIT)); */
 
         /* Clear MUX Bits */
-        ADC_ADMUX_REG &= 0xF0; // clear mux bits
+        ADC_ADMUX_REG &= 0xF0; /*  clear mux bits */
 
         /* Set to match required ADC Channel */
-        ADC_ADMUX_REG |= (en_a_adc_channel & 0x0F); // set to match required ADC channel
+        ADC_ADMUX_REG |= (en_a_adc_channel & 0x0F); /*  set to match required ADC channel */
 
 
         /* start conversion */

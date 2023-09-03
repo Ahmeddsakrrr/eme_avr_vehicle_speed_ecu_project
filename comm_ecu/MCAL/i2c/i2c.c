@@ -17,7 +17,7 @@
 #include "i2c_private.h"
 
 
-// 0b11111000
+/*  0b11111000 */
 #define I2C_GET_STATUS()    (TWSR&0xF8)
 
 void I2c_MasterInit(uint8_t_ address) {

@@ -27,61 +27,61 @@ void spi_init()
     /* SET slave select pin to high */
     GPIO_writePin(SPI_PORT, SPI_SS, LOGIC_HIGH);
 
-//    SET_BIT(SPI_U8_SPCR_REG, SPI_SPCR_CPHA_BIT);
+/*     SET_BIT(SPI_U8_SPCR_REG, SPI_SPCR_CPHA_BIT); */
 
     /* Init SPI Clock Speed in master only */
-    //region Init Clock Speed
+    /* region Init Clock Speed */
 #if SPI_CLOCK == SPI_CLOCK_FOSC_4
-    // disable speed doubler
+    /*  disable speed doubler */
     CLR_BIT(SPI_U8_SPSR_REG, SPI_SPSR_SPI2X_BIT);
 
-    // set corresponding clock selection bits
+    /*  set corresponding clock selection bits */
     CLR_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR0_BIT);
     CLR_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR1_BIT);
 #elif SPI_CLOCK == SPI_CLOCK_FOSC_16
-    // disable speed doubler
+    /*  disable speed doubler */
     CLR_BIT(SPI_U8_SPSR_REG, SPI_SPSR_SPI2X_BIT);
 
-    // set corresponding clock selection bits
+    /*  set corresponding clock selection bits */
     SET_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR0_BIT);
     CLR_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR1_BIT);
 #elif SPI_CLOCK == SPI_CLOCK_FOSC_64
-    // disable speed doubler
+    /*  disable speed doubler */
     CLR_BIT(SPI_U8_SPSR_REG, SPI_SPSR_SPI2X_BIT);
 
-    // set corresponding clock selection bits
+    /*  set corresponding clock selection bits */
     CLR_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR0_BIT);
     SET_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR1_BIT);
 #elif SPI_CLOCK == SPI_CLOCK_FOSC_128
-    // disable speed doubler
+    /*  disable speed doubler */
     CLR_BIT(SPI_U8_SPSR_REG, SPI_SPSR_SPI2X_BIT);
 
-    // set corresponding clock selection bits
+    /*  set corresponding clock selection bits */
     SET_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR0_BIT);
     SET_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR1_BIT);
 #elif SPI_CLOCK == SPI_CLOCK_FOSC_2
-    // enable speed doubler
+    /*  enable speed doubler */
     SET_BIT(SPI_U8_SPSR_REG, SPI_SPSR_SPI2X_BIT);
 
-    // set corresponding clock selection bits
+    /*  set corresponding clock selection bits */
     CLR_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR0_BIT);
     CLR_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR1_BIT);
 #elif SPI_CLOCK == SPI_CLOCK_FOSC_8
-    // enable speed doubler
+    /*  enable speed doubler */
     SET_BIT(SPI_U8_SPSR_REG, SPI_SPSR_SPI2X_BIT);
 
-    // set corresponding clock selection bits
+    /*  set corresponding clock selection bits */
     SET_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR0_BIT);
     CLR_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR1_BIT);
 #elif SPI_CLOCK == SPI_CLOCK_FOSC_32
-    // enable speed doubler
+    /*  enable speed doubler */
     SET_BIT(SPI_U8_SPSR_REG, SPI_SPSR_SPI2X_BIT);
 
-    // set corresponding clock selection bits
+    /*  set corresponding clock selection bits */
     CLR_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR0_BIT);
     SET_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPR1_BIT);
 #endif
-    //endregion
+    /* endregion */
 
     /* SET SPI mode to master */
     SET_BIT(SPI_U8_SPCR_REG, SPI_SPCR_MSTR_BIT);

@@ -22,7 +22,7 @@
  * */
 #define LCD_DATA_PORT PORTB_ID
 
-// DATA PINS
+/*  DATA PINS */
 #define LCD_DATA_PIN_D4         PIN0_ID
 #define LCD_DATA_PIN_D5         PIN1_ID
 #define LCD_DATA_PIN_D6         PIN2_ID
@@ -40,10 +40,5 @@
 #define LCD_CTRL_PIN_RS     PIN3_ID
 #define LCD_CTRL_PIN_RW     PIN1_ID
 #define LCD_CTRL_PIN_EN     PIN2_ID
-
-
-//#define HIGHER_NIBBLE_SHIFT(cmd)    cmd
-//#define LOWER_NIBBLE_SHIFT(cmd)     cmd << 4
-
 
 #endif /* LCD_CONFIG_H_ */

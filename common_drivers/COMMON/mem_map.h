@@ -14,7 +14,7 @@
 #  define ISR(vector, ...)            \
 void vector (void) __attribute__ ((signal,__INTR_ATTRS)) __VA_ARGS__; \
 void vector (void)*/
-//#define _VECTOR(N) __vector_ ## N*/
+/* #define _VECTOR(N) __vector_ ## N*/ */
 
 /* DIO_Registers */
 #define DDRA (*(volatile unsigned char*)0x3A)

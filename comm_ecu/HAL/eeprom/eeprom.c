@@ -19,9 +19,9 @@ void Eeprom_Init(void){
 Eeprom_StateType Eeprom_WriteByte(uint16_t_ address, uint8_t_ data){
 	en_i2c_status_t state;
 	uint8_t_ Slave_Address;
-	Slave_Address= 0b1010000 |(EEPROM_PIN_A2<<2)|(address>>8); //1010 + A2 + pageno.
+	Slave_Address= 0b1010000 |(EEPROM_PIN_A2<<2)|(address>>8); /* 1010 + A2 + pageno. */
 	
-	//i want to start i2c for communication.
+	/* i want to start i2c for communication. */
 	state=I2c_SendStart();
 	if(state!=I2C_STATUS_MASTER_START_SENT){
 		return EEPROM_FAIL;
@@ -53,7 +53,7 @@ Eeprom_StateType Eeprom_WriteByte(uint16_t_ address, uint8_t_ data){
 Eeprom_StateType Eeprom_ReadByte(uint16_t_ address, uint8_t_* data){
 	en_i2c_status_t state;
 	uint8_t_ Slave_Address;
-	Slave_Address= 0b1010000 |(EEPROM_PIN_A2<<2)|(address>>8); //1010 + A2 + pageno.
+	Slave_Address= 0b1010000 |(EEPROM_PIN_A2<<2)|(address>>8); /* 1010 + A2 + pageno. */
 
 	state=I2c_SendStart();
 	if(state!=I2C_STATUS_MASTER_START_SENT){
@@ -72,7 +72,7 @@ Eeprom_StateType Eeprom_ReadByte(uint16_t_ address, uint8_t_* data){
 		return EEPROM_FAIL;
 	}
 
-	//repeated start for reading from EEprom
+	/* repeated start for reading from EEprom */
 	state = I2c_SendStart();
 	if(state!= I2C_STATUS_MASTER_REP_START_SENT){
 		I2c_SendStop();

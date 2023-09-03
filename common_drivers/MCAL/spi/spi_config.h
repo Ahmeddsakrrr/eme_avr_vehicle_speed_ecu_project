@@ -45,23 +45,23 @@
 #define MASTER_REQ_RECEIVE_INT      EXI_U8_INT0
 #define MASTER_REQ_RECEIVE_SENSE    EXI_U8_SENSE_FALLING_EDGE
 
-// GPIO pin for slave mode to notify master to receive next data from slave
+/*  GPIO pin for slave mode to notify master to receive next data from slave */
 #define SPI_SLAVE_SEND_NOTIFY_PIN PIN0_ID
 
 /* Helping Bundled PINs Masks */
-// pins that are always OUTPUT for master mode
+/*  pins that are always OUTPUT for master mode */
 #define SPI_MASTER_OUT_PINS     DIO_MASK_BITS_4_5_7
-// pins that are always INPUT for slave mode
+/*  pins that are always INPUT for slave mode */
 #define SPI_SLAVE_IN_PINS       DIO_MASK_BITS_4_5_7
 
-// SPI Data Order
+/*  SPI Data Order */
 #define SPI_DORD SPI_DORD_MSB_FIRST
 
-// SPI MODE
-//#define SPI_MODE    SPI_MODE_MASTER
+/*  SPI MODE */
+/* #define SPI_MODE    SPI_MODE_MASTER */
 #define SPI_MODE  SPI_MODE_SLAVE
 
-// Clock
+/*  Clock */
 #define SPI_CLOCK SPI_CLOCK_FOSC_16
 
 

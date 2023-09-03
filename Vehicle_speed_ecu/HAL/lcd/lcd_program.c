@@ -8,7 +8,7 @@
 #include "lcd_interface.h"
 #include "lcd_private.h"
 
-// current cursor position (0 -> 15 @line1, 16 -> 31 @line2)
+/*  current cursor position (0 -> 15 @line1, 16 -> 31 @line2) */
 static uint8_t_ u8_gs_cursor = 0;
 static uint8_t_ u8_gs_line = LCD_LINE0;
 

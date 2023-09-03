@@ -17,14 +17,14 @@
 
 /* Macros */
 
-// LCD Lines
+/*  LCD Lines */
 #define LCD_LINE0           0
 #define LCD_LINE1           1
 #define LCD_LINE2           2
 #define LCD_LINE3           3
 #define LCD_LINES_TOTAL     4
 
-// LCD Columns
+/*  LCD Columns */
 #define LCD_COL0	0
 #define LCD_COL1	1
 #define LCD_COL2	2
@@ -46,7 +46,7 @@
 #define LCD_COL18	18
 #define LCD_COL19	19
 
-// LCD Custom Chars Locations
+/*  LCD Custom Chars Locations */
 #define LCD_CUSTOMCHAR_LOC0	0
 #define LCD_CUSTOMCHAR_LOC1	1
 #define LCD_CUSTOMCHAR_LOC2	2
