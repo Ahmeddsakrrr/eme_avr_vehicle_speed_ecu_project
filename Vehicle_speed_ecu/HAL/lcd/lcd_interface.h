@@ -70,7 +70,7 @@
  *
  * @return void
  */
-void LCD_init(void);
+void lcd_init(void);
 
 
 /**
@@ -108,7 +108,7 @@ void LCD_sendChar(uint8_t_ u8_a_data);
  *
  * @return void
  */
-void LCD_sendString(uint8_t_ * u8Ptr_a_str);
+void lcd_send_string(uint8_t_ * u8Ptr_a_str);
 
 /**
  * @brief Set the cursor position on the LCD.
@@ -118,7 +118,7 @@ void LCD_sendString(uint8_t_ * u8Ptr_a_str);
  *
  * @return STD_OK if the operation was successful, STD_NOK otherwise.
  */
-uint8_t_ LCD_setCursor(uint8_t_ u8_a_line, uint8_t_ u8_a_col);
+uint8_t_ lcd_set_cursor(uint8_t_ u8_a_line, uint8_t_ u8_a_col);
 
 /**
  * @brief Stores a custom character bitmap pattern in the CGRAM of the LCD module
@@ -128,23 +128,23 @@ uint8_t_ LCD_setCursor(uint8_t_ u8_a_line, uint8_t_ u8_a_col);
  *
  * @return STD_OK if successful, otherwise STD_NOK
  */
-uint8_t_ LCD_storeCustomCharacter(uint8_t_ * u8_a_pattern, uint8_t_ u8_a_location);
+uint8_t_ lcd_store_custom_character(uint8_t_ * u8_a_pattern, uint8_t_ u8_a_location);
 
 /**
  * Clears the LCD display
  */
-void LCD_clear(void);
+void lcd_clear(void);
 
 /**
  * Fancy right shift clear for the LCD display
  */
-void LCD_shiftClear(void);
+void lcd_shift_clear(void);
 
 
-void LCD_init_test(void);
+void lcd_init_test(void);
 
-void LCD_printNumber(uint16_t_ uint16_a_number, uint8_t_ lcd_line, uint8_t_ lcd_col);
-void LCD_printNumberFromEnd(uint16_t_ uint16_a_number, uint8_t_ lcd_line, uint8_t_ lcd_col);
+void lcd_print_number(uint16_t_ uint16_a_number, uint8_t_ lcd_line, uint8_t_ lcd_col);
+void lcd_print_number_from_end(uint16_t_ uint16_a_number, uint8_t_ lcd_line, uint8_t_ lcd_col);
 
 
 #endif /* LCD_INTERFACE_H_ */
