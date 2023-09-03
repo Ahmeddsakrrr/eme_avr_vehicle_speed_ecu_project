@@ -10,7 +10,7 @@
 #ifndef LCD_CONFIG_H_
 #define LCD_CONFIG_H_
 
-#include "gpio.h"
+#include "gpio_interface.h"
 
 
 /** LCD Data */

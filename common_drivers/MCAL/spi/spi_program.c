@@ -7,6 +7,7 @@
 
 #include "spi_interface.h"
 #include "spi_private.h"
+#include "spi_config.h"
 
 /**
  * Initializes SPI protocol
@@ -94,6 +95,7 @@ void spi_init()
     /* Init SPI port pins */
     DIO_portInit(SPI_PORT, DIO_PORT_IN, SPI_SLAVE_IN_PINS);
     DIO_init(SPI_MISO, SPI_PORT, DIO_OUT);
+
 
     DIO_portInit(SPI_PORT, DIO_PORT_IN, SPI_SLAVE_IN_PINS);
     DIO_init(SPI_MISO, SPI_PORT, DIO_OUT);

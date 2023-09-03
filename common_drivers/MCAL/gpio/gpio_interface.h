@@ -1,5 +1,5 @@
 /*
- * gpio.h
+ * gpio_interface.h
  *
  *  Created on: Aug 17, 2023
  *  Author: Mahmoud Abdrabo

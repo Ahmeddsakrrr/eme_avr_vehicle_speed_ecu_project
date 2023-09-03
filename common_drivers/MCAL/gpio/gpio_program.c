@@ -10,7 +10,7 @@
  *
  *******************************************************************************/
 
-#include "gpio.h"
+#include "gpio_interface.h"
 #include "bit_math.h"  /* To use the macros like SET_BIT */
 #include "gpio_private.h" 		/* To use the IO Ports Registers */
 

@@ -8,7 +8,7 @@
 #ifndef INC_LED_CFG_H_
 #define INC_LED_CFG_H_
 
-#include "gpio.h"
+#include "gpio_interface.h"
 
 /************************* USER CONFIGURATIONS *************************/
 #define LED_ON_VOLTAGE      LOGIC_HIGH

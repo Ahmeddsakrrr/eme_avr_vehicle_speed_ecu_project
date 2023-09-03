@@ -6,7 +6,7 @@
  */
 
 #include "std.h"
-#include "gpio.h"
+#include "gpio_interface.h"
 #include "Led.h"
 #include "bit_math.h"
 

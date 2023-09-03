@@ -9,7 +9,7 @@
 #ifndef BUZZ_INTERFACE_H_
 #define BUZZ_INTERFACE_H_
 
-#include "gpio.h"
+#include "gpio_interface.h"
 
 #define  BUZZ_PORT         PORTC_ID 
 #define  BUZZ_PIN          PIN6_ID 

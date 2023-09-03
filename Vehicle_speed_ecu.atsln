@@ -31,9 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "COMMON", "COMMON", "{EE0928
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gpio", "gpio", "{7621DC4D-73E1-4A56-AB82-5395406D2070}"
 	ProjectSection(SolutionItems) = preProject
-		common_drivers\MCAL\gpio\gpio.c = common_drivers\MCAL\gpio\gpio.c
-		common_drivers\MCAL\gpio\gpio.h = common_drivers\MCAL\gpio\gpio.h
+		common_drivers\MCAL\gpio\gpio_interface.h = common_drivers\MCAL\gpio\gpio_interface.h
 		common_drivers\MCAL\gpio\gpio_private.h = common_drivers\MCAL\gpio\gpio_private.h
+		common_drivers\MCAL\gpio\gpio_program.c = common_drivers\MCAL\gpio\gpio_program.c
 	EndProjectSection
 EndProject
 Global

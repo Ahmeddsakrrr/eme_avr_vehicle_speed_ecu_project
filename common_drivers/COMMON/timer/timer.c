@@ -1,4 +1,4 @@
-#include "gpio.h"
+#include "gpio_interface.h"
 #include "timer.h"
 
 /*************************Pointer to functions to be assigned to ISR*********************************/

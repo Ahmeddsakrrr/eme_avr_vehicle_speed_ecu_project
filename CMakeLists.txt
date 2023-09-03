@@ -8,6 +8,7 @@ include_directories(comm_ecu/APP)
 include_directories(common_drivers/COMMON)
 include_directories(common_drivers/COMMON/timer)
 include_directories(common_drivers/MCAL/spi)
+include_directories(common_drivers/MCAL/gpio)
 include_directories(Vehicle_speed_ecu/APP)
 include_directories(Vehicle_speed_ecu/HAL/buzz)
 include_directories(Vehicle_speed_ecu/HAL/kl15)
@@ -60,6 +61,7 @@ add_executable(Vehicle_speed_ecu
         Vehicle_speed_ecu/MCAL/adc/adc_lconfig.c
         Vehicle_speed_ecu/MCAL/adc/adc_private.h
         Vehicle_speed_ecu/MCAL/adc/adc_program.c
-        Vehicle_speed_ecu/MCAL/gpio/gpio.c
-        Vehicle_speed_ecu/MCAL/gpio/gpio.h
-        Vehicle_speed_ecu/MCAL/gpio/gpio_private.h)
+        common_drivers/MCAL/gpio/gpio_program.c
+        common_drivers/MCAL/gpio/gpio_interface.h
+        common_drivers/MCAL/gpio/gpio_private.h
+)

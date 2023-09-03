@@ -2,14 +2,14 @@
  * spi_config.h
  *
  * Created: 1/5/2023 5:18:24 PM
- *  Author: Hossam
+ *  Author: Hossam Elwahsh
  */ 
 
 
 #ifndef SPI_CONFIG_H_
 #define SPI_CONFIG_H_
 
-#include "dio_interface.h"
+#include "gpio_interface.h"
 
 /******* MACRO HELPERS ********/
 #define EXPAND(x) x

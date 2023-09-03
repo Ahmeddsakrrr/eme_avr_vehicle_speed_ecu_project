@@ -5,7 +5,7 @@
  *  Author: Hossam Elwahsh
  */ 
 
-#include "gpio.h"
+#include "gpio_interface.h"
 
 #ifndef KPD_CONFIG_H
 #define KPD_CONFIG_H
