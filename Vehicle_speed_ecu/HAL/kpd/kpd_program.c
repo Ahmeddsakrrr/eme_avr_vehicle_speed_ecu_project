@@ -16,10 +16,10 @@
 #define KPD_TIMER_MS_DELAY(ms_delay_val) delay_ms(ms_delay_val)
 
 const uint8_t_ keypad_values[4][4] = {
-        {'1','2','3','A'},
-        {'4','5','6','B'},
-        {'7','8','9','C'},
-        {'+','0','-','D'},
+        {'1','2','3','P'},
+        {'4','5','6','R'},
+        {'7','8','9','N'},
+        {'+','0','K','D'},
 };
 
 const uint8_t_ keypad_cols[KEYPAD_COLS_TOTAL] = {
