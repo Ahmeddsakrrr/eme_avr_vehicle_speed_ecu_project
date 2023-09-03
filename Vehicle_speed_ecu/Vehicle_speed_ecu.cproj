@@ -112,6 +112,7 @@
       <Value>../MCAL/gpio</Value>
       <Value>../MCAL/spi</Value>
       <Value>../APP</Value>
+      <Value>../../common_drivers/MCAL/gpio</Value>
     </ListValues>
   </avrgcc.compiler.directories.IncludePaths>
   <avrgcc.compiler.optimization.level>Optimize debugging experience (-Og)</avrgcc.compiler.optimization.level>
@@ -212,15 +213,6 @@
     <Compile Include="MCAL\adc\adc_program.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MCAL\gpio\gpio.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="MCAL\gpio\gpio.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="MCAL\gpio\gpio_private.h">
-      <SubType>compile</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HAL\kl15" />
@@ -233,7 +225,6 @@
     <Folder Include="MCAL" />
     <Folder Include="HAL" />
     <Folder Include="APP" />
-    <Folder Include="MCAL\gpio" />
     <Folder Include="MCAL\adc" />
     <Folder Include="MCAL\spi" />
   </ItemGroup>

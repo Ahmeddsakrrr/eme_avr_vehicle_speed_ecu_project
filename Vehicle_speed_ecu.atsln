@@ -29,6 +29,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "COMMON", "COMMON", "{EE0928
 		common_drivers\COMMON\std.h = common_drivers\COMMON\std.h
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gpio", "gpio", "{7621DC4D-73E1-4A56-AB82-5395406D2070}"
+	ProjectSection(SolutionItems) = preProject
+		common_drivers\MCAL\gpio\gpio.c = common_drivers\MCAL\gpio\gpio.c
+		common_drivers\MCAL\gpio\gpio.h = common_drivers\MCAL\gpio\gpio.h
+		common_drivers\MCAL\gpio\gpio_private.h = common_drivers\MCAL\gpio\gpio_private.h
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -52,5 +59,6 @@ Global
 		{DE69FC4D-07C3-415F-A8EA-52C1A8EB9EB6} = {7B4D5374-7D51-4EB2-9E0A-54D2842F0AB0}
 		{7B4D5374-7D51-4EB2-9E0A-54D2842F0AB0} = {C1A62AB0-67C6-4D02-8049-EE033D9C7EFC}
 		{EE09287F-724D-479D-8882-3C6871ECCC33} = {C1A62AB0-67C6-4D02-8049-EE033D9C7EFC}
+		{7621DC4D-73E1-4A56-AB82-5395406D2070} = {7B4D5374-7D51-4EB2-9E0A-54D2842F0AB0}
 	EndGlobalSection
 EndGlobal
