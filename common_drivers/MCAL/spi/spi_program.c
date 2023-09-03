@@ -20,11 +20,12 @@ void spi_init()
     /* Init SPI Pins */
 #if SPI_MODE == SPI_MODE_MASTER
     /* Init SPI port pins */
-    DIO_init(SPI_MISO, SPI_PORT, DIO_IN);
-    DIO_portInit(SPI_PORT, DIO_PORT_OUT, SPI_MASTER_OUT_PINS);
+    GPIO_setupPinDirection(SPI_PORT, SPI_SS, PIN_OUTPUT);
+    GPIO_setupPinDirection(SPI_PORT, SPI_MOSI, PIN_OUTPUT);
+    GPIO_setupPinDirection(SPI_PORT, SPI_MISO, PIN_INPUT);
 
     /* SET slave select pin to high */
-    DIO_write(SPI_SS, SPI_PORT, DIO_U8_PIN_HIGH);
+    GPIO_writePin(SPI_PORT, SPI_SS, LOGIC_HIGH);
 
 //    SET_BIT(SPI_U8_SPCR_REG, SPI_SPCR_CPHA_BIT);
 
@@ -89,19 +90,17 @@ void spi_init()
     SET_BIT(SPI_U8_SPCR_REG, SPI_SPCR_SPE_BIT);
 
     /* SET slave select pin to low to start communications */
-    DIO_write(SPI_SS, SPI_PORT, DIO_U8_PIN_LOW);
+    GPIO_writePin(SPI_PORT, SPI_SS, LOGIC_LOW);
 
 #elif SPI_MODE == SPI_MODE_SLAVE
     /* Init SPI port pins */
-    DIO_portInit(SPI_PORT, DIO_PORT_IN, SPI_SLAVE_IN_PINS);
-    DIO_init(SPI_MISO, SPI_PORT, DIO_OUT);
 
-
-    DIO_portInit(SPI_PORT, DIO_PORT_IN, SPI_SLAVE_IN_PINS);
-    DIO_init(SPI_MISO, SPI_PORT, DIO_OUT);
+    GPIO_setupPinDirection(SPI_PORT, SPI_SS, PIN_INPUT);
+    GPIO_setupPinDirection(SPI_PORT, SPI_MOSI, PIN_INPUT);
+    GPIO_setupPinDirection(SPI_PORT, SPI_MISO, PIN_OUTPUT);
 
     /* Init SPI slave GPIO Notify pin as OUTPUT */
-    DIO_init(SPI_SLAVE_SEND_NOTIFY_PIN, SPI_PORT, DIO_OUT);
+    GPIO_setupPinDirection(SPI_PORT, SPI_SLAVE_SEND_NOTIFY_PIN, PIN_OUTPUT);
 
     /* SET SPI mode to slave */
     CLR_BIT(SPI_U8_SPCR_REG, SPI_SPCR_MSTR_BIT);
@@ -115,11 +114,11 @@ void spi_init()
 /**
  * Receive and Transmit one byte via SPI
  *
- * @param [in]u8Ptr_a_byte byte to send
+ * @param [in]u8_a_byte byte to send
  *
  * @return Received byte
  */
-uint8_t_ spi_transceiver(uint8_t_ u8Ptr_a_byte)
+uint8_t_ spi_transceiver(uint8_t_ u8_a_byte)
 {
 #if SPI_MODE == SPI_MODE_MASTER
 
@@ -132,7 +131,7 @@ uint8_t_ spi_transceiver(uint8_t_ u8Ptr_a_byte)
 
 #elif SPI_MODE == SPI_MODE_SLAVE
 
-    SPI_U8_SPDR_REG = u8Ptr_a_byte;
+    SPI_U8_SPDR_REG = u8_a_byte;
 
     while(!GET_BIT(SPI_U8_SPSR_REG, SPI_SPSR_SPIF_BIT));
 
@@ -147,8 +146,8 @@ uint8_t_ spi_transceiver(uint8_t_ u8Ptr_a_byte)
  */
 void spi_restart()
 {
-    DIO_write(SPI_SS, SPI_PORT, DIO_U8_PIN_HIGH);
-    DIO_write(SPI_SS, SPI_PORT, DIO_U8_PIN_LOW);
+    GPIO_writePin(SPI_PORT, SPI_SS, LOGIC_HIGH);
+    GPIO_writePin(SPI_PORT, SPI_SS, LOGIC_LOW);
 }
 
 
@@ -157,5 +156,5 @@ void spi_restart()
  */
 void spi_stop()
 {
-    DIO_write(SPI_SS, SPI_PORT, DIO_U8_PIN_HIGH);
+    GPIO_writePin(SPI_PORT, SPI_SS, LOGIC_HIGH);
 }

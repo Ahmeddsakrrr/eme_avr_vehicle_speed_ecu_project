@@ -24,7 +24,7 @@ void spi_init();
  *
  * @return Received byte
  */
-uint8_t_ spi_transceiver(uint8_t_ u8Ptr_a_byte);
+uint8_t_ spi_transceiver(uint8_t_ u8_a_byte);
 
 /**
  * Syncs and restarts SPI communications between Master and Slave by setting SS pin High then Low again

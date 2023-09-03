@@ -12,7 +12,6 @@
 #include "gpio_interface.h"
 
 /******* MACRO HELPERS ********/
-#define EXPAND(x) x
 #define SPI_U8_DUMMY_VAL 0xFF
 
 /******* AVAILABLE OPTIONS ********/
@@ -35,32 +34,32 @@
 
 /******* CONFIGURATIONS ********/
 /* PORT and PINS */
-#define SPI_PORT    PORT_B
-#define SPI_SS      EXPAND(DIO_U8_PIN_4)
-#define SPI_MOSI    EXPAND(DIO_U8_PIN_5)
-#define SPI_MISO    EXPAND(DIO_U8_PIN_6)
-#define SPI_SCK     EXPAND(DIO_U8_PIN_7)
+#define SPI_PORT    PORTB_ID
+#define SPI_SS      PIN4_ID
+#define SPI_MOSI    PIN5_ID
+#define SPI_MISO    PIN6_ID
+#define SPI_SCK     PIN7_ID
 
 /* MASTER / SLAVE TRIGGERS */
 
-#define MASTER_REQ_RECEIVE_INT      EXPAND(EXI_U8_INT0)
-#define MASTER_REQ_RECEIVE_SENSE    EXPAND(EXI_U8_SENSE_FALLING_EDGE)
+#define MASTER_REQ_RECEIVE_INT      EXI_U8_INT0
+#define MASTER_REQ_RECEIVE_SENSE    EXI_U8_SENSE_FALLING_EDGE
 
 // GPIO pin for slave mode to notify master to receive next data from slave
-#define SPI_SLAVE_SEND_NOTIFY_PIN EXPAND(DIO_U8_PIN_0)
+#define SPI_SLAVE_SEND_NOTIFY_PIN PIN0_ID
 
 /* Helping Bundled PINs Masks */
 // pins that are always OUTPUT for master mode
-#define SPI_MASTER_OUT_PINS     EXPAND(DIO_MASK_BITS_4_5_7)
+#define SPI_MASTER_OUT_PINS     DIO_MASK_BITS_4_5_7
 // pins that are always INPUT for slave mode
-#define SPI_SLAVE_IN_PINS       EXPAND(DIO_MASK_BITS_4_5_7)
+#define SPI_SLAVE_IN_PINS       DIO_MASK_BITS_4_5_7
 
 // SPI Data Order
 #define SPI_DORD SPI_DORD_MSB_FIRST
 
 // SPI MODE
-//#define SPI_MODE    EXPAND(SPI_MODE_MASTER)
-#define SPI_MODE  EXPAND(SPI_MODE_SLAVE)
+//#define SPI_MODE    SPI_MODE_MASTER
+#define SPI_MODE  SPI_MODE_SLAVE
 
 // Clock
 #define SPI_CLOCK SPI_CLOCK_FOSC_16
