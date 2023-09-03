@@ -1,0 +1,5 @@
+#define TWBR        *((volatile uint8_t_*) 0x20)
+#define TWCR		*((volatile uint8_t_*) 0x56)
+#define TWSR		*((volatile uint8_t_*) 0x21)
+#define TWDR        *((volatile uint8_t_*) 0x23)
+#define TWAR		*((volatile uint8_t_*) 0x22)
