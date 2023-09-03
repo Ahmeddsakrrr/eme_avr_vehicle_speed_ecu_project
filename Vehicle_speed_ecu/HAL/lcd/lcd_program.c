@@ -33,11 +33,11 @@ void lcd_init(void)
     GPIO_setupPinDirection(LCD_CTRL_PORT, LCD_CTRL_PIN_EN, PIN_OUTPUT);
 
     LCD_TIMER_MS_DELAY(LCD_MS_DELAY_INIT); /*  10 ms */
-    LCD_sendCommand(LCD_CMD_RETURN_HOME); /*  Return home */
-    LCD_sendCommand(LCD_CMD_MODE_4Bit); /*  4 bit mode, 2 lines, 5*7 matrix */
-    LCD_sendCommand(LCD_CMD_DCB); /*  Display on, Cursor on, Blink on */
-    LCD_sendCommand(LCD_CMD_INC_CURSOR_RIGHT); /*  Increment cursor (shift to right) */
-    LCD_sendCommand(LCD_CMD_CLEAR); /*  Clear display */
+    lcd_send_command(LCD_CMD_RETURN_HOME); /*  Return home */
+    lcd_send_command(LCD_CMD_MODE_4Bit); /*  4 bit mode, 2 lines, 5*7 matrix */
+    lcd_send_command(LCD_CMD_DCB); /*  Display on, Cursor on, Blink on */
+    lcd_send_command(LCD_CMD_INC_CURSOR_RIGHT); /*  Increment cursor (shift to right) */
+    lcd_send_command(LCD_CMD_CLEAR); /*  Clear display */
     LCD_TIMER_MS_DELAY(LCD_MS_DELAY_STORE);
 
     /*  pre-storing bell shape at CGRAM location 0 */
@@ -62,7 +62,7 @@ void lcd_init(void)
  *
  * @param [in]u8_a_cmd The command to be sent
  */
-void LCD_sendCommand(uint8_t_ u8_a_cmd) {
+void lcd_send_command(uint8_t_ u8_a_cmd) {
 
     /*  RS select command register */
     GPIO_writePin(LCD_CTRL_PORT, LCD_CTRL_PIN_RS,  LOGIC_LOW);
@@ -204,7 +204,7 @@ uint8_t_ lcd_set_cursor(uint8_t_ u8_a_line, uint8_t_ u8_a_col)
     if(u8_a_line > LCD_LINE3 || u8_a_col > LCD_COL19) return STD_NOK;
 
     unsigned short firstCharAddr[] = {LCD_LINE0_ADDR, LCD_LINE1_ADDR, LCD_LINE2_ADDR, LCD_LINE3_ADDR}; /*  Address of the first character of each line */
-    LCD_sendCommand(LCD_LINES_BASE_RAM_LOC + firstCharAddr[u8_a_line] + u8_a_col);
+    lcd_send_command(LCD_LINES_BASE_RAM_LOC + firstCharAddr[u8_a_line] + u8_a_col);
 	/*  update global cursor */
 	u8_gs_cursor = (u8_a_line * LCD_LINE_COLS) + u8_a_col;
     /*  update global line */
@@ -228,7 +228,7 @@ uint8_t_ lcd_store_custom_character(uint8_t_ * u8_a_pattern, uint8_t_ u8_a_locat
     if(u8_a_location > LCD_CGRAM_LOC_COUNT) return STD_NOK;
 
     /*  set CGRAM Address */
-    LCD_sendCommand(LCD_CGRAM_ADDR + (u8_a_location * LCD_CGRAM_LOC_SIZE));
+    lcd_send_command(LCD_CGRAM_ADDR + (u8_a_location * LCD_CGRAM_LOC_SIZE));
 
     /*  store custom character bitmap bytes */
     for (int i = 0; i < LCD_CGRAM_LOC_SIZE; ++i) {
@@ -243,7 +243,7 @@ uint8_t_ lcd_store_custom_character(uint8_t_ * u8_a_pattern, uint8_t_ u8_a_locat
  */
 void lcd_clear(void)
 {
-    LCD_sendCommand(LCD_CMD_CLEAR);
+    lcd_send_command(LCD_CMD_CLEAR);
     u8_gs_cursor = 0;
 }
 
@@ -254,10 +254,10 @@ void lcd_shift_clear(void)
 {
     for (int i = 0; i < LCD_LINE_COLS; ++i)
     {
-        LCD_sendCommand(LCD_CMD_DISP_SHIFT_RIGHT);
+        lcd_send_command(LCD_CMD_DISP_SHIFT_RIGHT);
         LCD_TIMER_MS_DELAY(LCD_MS_DELAY_SHIFT);
     }
-    LCD_sendCommand(LCD_CMD_CLEAR);
+    lcd_send_command(LCD_CMD_CLEAR);
     u8_gs_cursor = ZERO;
 }
 

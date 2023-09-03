@@ -83,7 +83,7 @@ void lcd_init(void);
  *
  * @param [in]u8_a_cmd The command to be sent
  */
-void LCD_sendCommand(uint8_t_ u8_a_cmd);
+void lcd_send_command(uint8_t_ u8_a_cmd);
 
 /**
  * @brief Sends a single character to the LCD display
