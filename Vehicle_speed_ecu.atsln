@@ -11,8 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common_drivers", "Common_dr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "timer", "timer", "{C41FA5A2-951E-45B2-9F5D-CAC6DEC081B9}"
 	ProjectSection(SolutionItems) = preProject
-		common_drivers\COMMON\timer\timer.c = common_drivers\COMMON\timer\timer.c
-		common_drivers\COMMON\timer\timer.h = common_drivers\COMMON\timer\timer.h
+		common_drivers\COMMON\timer\timer_interface.h = common_drivers\COMMON\timer\timer_interface.h
+		common_drivers\COMMON\timer\timer_program.c = common_drivers\COMMON\timer\timer_program.c
 		common_drivers\COMMON\timer\Timers_Services.c = common_drivers\COMMON\timer\Timers_Services.c
 		common_drivers\COMMON\timer\Timers_Services.h = common_drivers\COMMON\timer\Timers_Services.h
 	EndProjectSection

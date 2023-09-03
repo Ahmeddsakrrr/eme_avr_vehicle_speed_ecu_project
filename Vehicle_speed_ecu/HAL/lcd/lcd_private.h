@@ -12,12 +12,12 @@
 /* INCLUDES */
 /* Common */
 #include "bit_math.h"
-#include "timer.h"
+#include "timer_interface.h"
 #include "Timers_Services.h"
 
 /* Code Beatify and Drivers Mapping */
 /* Timers Mapping */
-#define LCD_INIT_DELAY_TIMER()  TIMER2_Init(TIMER2_NORMAL_MODE)
+#define LCD_INIT_DELAY_TIMER()  timer2_init(TIMER2_NORMAL_MODE)
 #define LCD_TIMER_MS_DELAY(ms_delay_val) delay_ms(ms_delay_val)
 #define LCD_TIMER_US_DELAY(us_delay_val) delay_us(us_delay_val)
 

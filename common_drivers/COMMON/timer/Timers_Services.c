@@ -14,17 +14,17 @@
 
 
 
-void delay_ms(uint16_t_ time)
+void delay_ms(uint16_t_ uint16_a_time)
 {
-	TIMER2_OC_InterruptDisable();
-	TIMER2_SET_OCReg(OCR2_1U_OVERFLOW);//overflow every 1m
-	Timer2_change(TIMER2_SCALER_64);	
-	while(time!=LOW)
+	timer2_oc_interrupt_disable();
+	timer2_set_oc2_reg(OCR2_1U_OVERFLOW);//overflow every 1m
+	timer2_change(TIMER2_SCALER_64);	
+	while(uint16_a_time!=LOW)
 	{
 		 while(GET_BIT(TIFR,OCF2)==LOW);
 		 SET_BIT(TIFR,OCF2);
 		 
-		 time--;
+		 timer2_change--;
 	}
 }
 
@@ -32,14 +32,14 @@ void delay_ms(uint16_t_ time)
 
 
 
-void delay_us(uint16_t_ time)
+void delay_us(uint16_t_ uint16_a_time)
 {
-	TIMER2_OC_InterruptDisable();
+	timer2_oc_interrupt_disable();
 	
-	 if(time <= OVERFLOW_TIME_8PRESCALER)
+	 if(uint16_a_time <= OVERFLOW_TIME_8PRESCALER)
 	 {
-		 TIMER2_SET_OCReg(((time * OCR2_8FREQ)-ONE_TICK));
-		 Timer2_change(TIMER2_SCALER_8);
+		timer2_set_oc2_reg(((time * OCR2_8FREQ)-ONE_TICK));
+		 timer2_change(TIMER2_SCALER_8);
 		 while(GET_BIT(TIFR,OCF2)==LOW);
 		 SET_BIT(TIFR,OCF2);
 		
@@ -48,8 +48,8 @@ void delay_us(uint16_t_ time)
 	 
 	 else
 	 {
-		  TIMER2_SET_OCReg(((time/ OCR2_64TIMER)-ONE_TICK));
-		 Timer2_change(TIMER2_SCALER_64);
+		  timer2_set_oc2_reg(((time/ OCR2_64TIMER)-ONE_TICK));
+		 timer2_change(TIMER2_SCALER_64);
 		 while(GET_BIT(TIFR,OCF2)==LOW);
 		  SET_BIT(TIFR,OCF2);
 		 

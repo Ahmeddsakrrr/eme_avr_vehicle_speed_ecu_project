@@ -9,6 +9,8 @@
 #ifndef INTERRUPTS_H_
 #define INTERRUPTS_H_
 
+
+//#include "bit_math.h"
 /*************************************************************************************************************
  * 													Vector Table
  ************************************************************************************************************/
@@ -45,8 +47,8 @@ void INT_VECT(void)
 /*************************************************************************************************************
  * 									Global interrupt control macros 
  ************************************************************************************************************/
-#define sei() __asm__ __volatile__ ("sei" ::: "memory")			/* Sets Global Interrupt Enable Bit   */
-#define cli() __asm__ __volatile__ ("cli" ::: "memory")			/* Clears Global Interrupt Enable Bit */
+#define sei()         (SET(AVR_SREG_REG,AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT))			/* Sets Global Interrupt Enable Bit   */
+#define cli()         (CLR(AVR_SREG_REG,AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT))			/* Clears Global Interrupt Enable Bit */
 
 
 #endif /* INTERRUPTS_H_ */

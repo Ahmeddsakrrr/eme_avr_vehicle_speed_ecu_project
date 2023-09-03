@@ -7,12 +7,12 @@
 
 #include "kpd_config.h"
 #include "kpd_interface.h"
-#include "timer.h"
+#include "timer_interface.h"
 #include "Timers_Services.h"
 
 #define  F_CPU    16000000UL
 
-#define KPD_INIT_DELAY_TIMER()  TIMER2_Init(TIMER2_NORMAL_MODE)
+#define KPD_INIT_DELAY_TIMER()  timer2_init(TIMER2_NORMAL_MODE)
 #define KPD_TIMER_MS_DELAY(ms_delay_val) delay_ms(ms_delay_val)
 
 const uint8_t_ keypad_values[4][4] = {
