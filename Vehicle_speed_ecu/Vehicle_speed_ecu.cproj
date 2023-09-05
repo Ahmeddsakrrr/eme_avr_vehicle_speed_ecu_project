@@ -208,6 +208,12 @@
     <Compile Include="HAL\led\Led_Cfg.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="HAL\throttle\throttle.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HAL\throttle\throttle.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>

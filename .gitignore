@@ -2,3 +2,4 @@
 cmake-build-debug/
 Vehicle_speed_ecu/Debug
 comm_ecu/Debug
+*.o

@@ -5,10 +5,11 @@
  * Author : GUCALEX Team
  */ 
 
-#include "app_interface.h"
-
+#include "App/app_interface.h"
 int main(void)
 {
-   
+    app_init();
+    app_start();
+    
 }
 
