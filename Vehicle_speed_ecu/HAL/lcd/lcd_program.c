@@ -261,6 +261,16 @@ void lcd_shift_clear(void)
     u8_gs_cursor = ZERO;
 }
 
+
+void lcd_print_number(uint16_t_ uint16_a_number, uint8_t_ lcd_line, uint8_t_ lcd_col)
+{
+	/* set cursor location */
+	lcd_set_cursor(lcd_line, lcd_col);
+	
+	/* parse number and print */
+	/* todo sakr */
+}
+
 /**
  * @brief   :   Prints a number starting from unit digit first and going backward in LCD position
  * @param[in] uint16_a_number   : Number to print
