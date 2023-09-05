@@ -10,7 +10,8 @@
 #define THROTTLEE_H_
 
 #include "adc_interface.h"
-uint16_t_ throttle_readings;
+
+extern uint16_t_ throttle_readings;
 
 typedef enum
 {

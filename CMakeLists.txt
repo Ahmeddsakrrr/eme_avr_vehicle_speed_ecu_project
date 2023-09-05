@@ -18,6 +18,8 @@ include_directories(Vehicle_speed_ecu/HAL/ldr)
 include_directories(Vehicle_speed_ecu/HAL/led)
 include_directories(Vehicle_speed_ecu/MCAL/adc)
 include_directories(Vehicle_speed_ecu/MCAL/gpio)
+include_directories("C:/Users/A M/eme_avr_vehicle_speed_ecu_project/Vehicle_speed_ecu/HAL/throttle/")
+
 
 add_executable(Vehicle_speed_ecu
         comm_ecu/APP/app_config.h
@@ -64,4 +66,16 @@ add_executable(Vehicle_speed_ecu
         common_drivers/MCAL/gpio/gpio_program.c
         common_drivers/MCAL/gpio/gpio_interface.h
         common_drivers/MCAL/gpio/gpio_private.h
+        Vehicle_speed_ecu/main.c
+        Vehicle_speed_ecu/MCAL/i2c/i2c_private.h
+        Vehicle_speed_ecu/HAL/throttle/throttle.c
+        Vehicle_speed_ecu/HAL/throttle/throttle.c
+        Vehicle_speed_ecu/HAL/throttle/throttle.c
+        Vehicle_speed_ecu/HAL/throttle/throttle.h
+        Vehicle_speed_ecu/HAL/throttle/throttle.h
+        "C:/Users/A M/eme_avr_vehicle_speed_ecu_project/Vehicle_speed_ecu/HAL/throttle/throttle.h"
+        Vehicle_speed_ecu/HAL/throttle/throttle.h
+        Vehicle_speed_ecu/HAL/throttlee/throttlee.c
+        Vehicle_speed_ecu/HAL/throttlee/throttlee.c
+
 )

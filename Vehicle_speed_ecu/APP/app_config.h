@@ -19,9 +19,11 @@
 
 
 
-#define MAIN                        '1'
-#define SPEEDLIMIT                  '2'
-#define SETLIMIT                    '3'
+#define KPD_MAIN                                    '1'
+#define KPD_SPEEDLIMIT                              '2'
+#define KPD_SETLIMIT                                '3'
+#define SPEED_LIMIT_OFF                              0
+#define SPEED_LIMIT_ON                               1
 
 
                                                                     /*      {'1','2','3','P'},

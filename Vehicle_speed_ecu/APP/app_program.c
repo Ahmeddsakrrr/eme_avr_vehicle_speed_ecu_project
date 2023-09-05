@@ -9,6 +9,7 @@
 #include "app_config.h"
 #include "app_private.h"
 #include "lcd_interface.h"
+#include "throttle.h"
 
 static void app_switch_state(en_app_state_t state);
 /*App state */
@@ -18,6 +19,7 @@ static  en_app_state_t  en_gs_next_app_state =               APP_STATE_INIT_UI ;
 /*APP GLOBAL VARIABLES*/
 uint8_t_ uint8_g_readings;
 uint8_t_ uint8_Gear_mode =                         KPD_CAR_MODE_P;
+uint8_t_ Speed_limit_f   =                           SPEED_LIMIT_OFF;
 
 void app_init(void)
 {
@@ -61,18 +63,18 @@ void app_start(void)
 
             case APP_STATE_SHOW_OPTIONS:
             {
-                /*if button is pressed*/
-                if(KPD_CAR_MODE_P==uint8_kpd_value)
+                /*if btn is pressed*/
+                if(KPD_MAIN == uint8_kpd_value)
                 {
-                    /*update flag*/
-                    en_gs_next_app_state= APP_STATE_MAIN;
+                    en_gs_next_app_state=APP_STATE_MAIN;
                     app_switch_state(APP_STATE_MAIN);
 
                 }
-                if(KPD_CAR_MODE_R==uint8_kpd_value)
+                else if(KPD_SPEEDLIMIT == uint8_kpd_value)
                 {
-                    en_gs_app_state=APP_STATE_MAIN;
-                    app_switch_state(APP_STATE_MAIN);
+                en_gs_next_app_state=APP_STATE_SPEED_LIMIT_ON_OFF;
+                    app_switch_state(APP_STATE_SPEED_LIMIT_ON_OFF);
+
                 }
 
                 break;
@@ -157,6 +159,8 @@ static void app_switch_state(en_app_state_t state){
                     if(uint16_g_last_reading[ADC_CH_0]>0){
                         /*alert with the buzzer "you can't move the car in park mode"*/
                         buzz_on();
+                        lcd_set_cursor(LCD_LINE3,LCD_COL0);
+                        lcd_send_string("you can't move the car in park mode");
                     }
                     en_gs_app_state = APP_STATE_MAIN;
                     break;
@@ -168,8 +172,8 @@ static void app_switch_state(en_app_state_t state){
                     lcd_send_string("1-GEAR : N");
 
                     lcd_set_cursor(LCD_LINE2,LCD_COL0);
-                    lcd_send_string("2-SPEED : 0");
-
+                    lcd_send_string("2-SPEED : ");
+                    lcd_print_number(uint16_g_last_reading[ADC_CH_0],LCD_LINE1,LCD_COL10);
                     en_gs_app_state = APP_STATE_MAIN;
                     break;
                 }
@@ -189,7 +193,7 @@ static void app_switch_state(en_app_state_t state){
                         lcd_print_number(uint16_g_last_reading[ADC_CH_0], 1, 10);
                     }
                     else if(uint16_g_last_reading[ADC_CH_0]>30){
-                        lcd_print_number(30,0,0);
+                        lcd_print_number(30,LCD_LINE1,LCD_COL10);
                     }
 
                     en_gs_app_state = APP_STATE_MAIN;
@@ -202,13 +206,27 @@ static void app_switch_state(en_app_state_t state){
             {
                 /*clear lcd*/
                 lcd_clear();
-                /*INFORM THAT SPEED LIMIT IS ON*/
-                lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                lcd_send_string("Speed limit turned on");
-                /*INFORM THAT SPEED LIMIT IS OFF*/
-                lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                lcd_send_string("Speed limit turned off");
-                /*return back to the options menu */
+                if(Speed_limit_f == SPEED_LIMIT_OFF)
+                {
+                    /*INFORM THAT SPEED LIMIT IS OFF*/
+                    lcd_set_cursor(LCD_LINE1,LCD_COL0);
+                    lcd_send_string("Speed limit turned off");
+                    /*return back to the options menu */
+                }
+                else if(Speed_limit_f == SPEED_LIMIT_ON)
+                {
+                    /*INFORM THAT SPEED LIMIT IS ON*/
+                    lcd_set_cursor(LCD_LINE1,LCD_COL0);
+                    lcd_send_string("Speed limit turned on");
+                    Speed_limit_f = SPEED_LIMIT_OFF;
+                }
+                
+                
+                
+                
+                
+                
+
                 app_switch_state(APP_STATE_SHOW_OPTIONS);
                 break;
             }

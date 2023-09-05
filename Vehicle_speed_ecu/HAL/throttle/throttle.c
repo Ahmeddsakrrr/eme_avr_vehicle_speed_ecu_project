@@ -5,6 +5,8 @@
  *  Author: Sakr
  */ 
 #include "throttle.h"
+/*global variable used for measuring the readings of the padel*/
+uint16_t_ throttle_readings;
 
 en_throttle_t throttle_init(){
     en_adc_status_t ADC_status = adc_init();
