@@ -7,11 +7,18 @@
 
 
 
+#include "mem_map.h"
+#include "std.h"
+#include "spi_interface.h"
+#include "i2c_config.h"
+#include "eeprom.h"
+#include "app_private.h"
+#include "app_config.h"
+#include "app_interface.h"
+
 int main(void)
 {
-    /* Replace with your application code */
-    while (1) 
-    {
-    }
+     app_init();
+     app_start();
 }
 

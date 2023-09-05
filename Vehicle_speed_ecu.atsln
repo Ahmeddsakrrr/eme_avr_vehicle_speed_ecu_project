@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Vehicle_speed_ecu", "Vehicle_speed_ecu\Vehicle_speed_ecu.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
 EndProject
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "comm_ecu", "comm_ecu\comm_ecu.cproj", "{27826E89-4E63-4394-AB21-31E2F266A9FB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897} = {DCE6C7E3-EE26-4D79-826B-08594B9AD897}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common_drivers", "Common_drivers", "{C1A62AB0-67C6-4D02-8049-EE033D9C7EFC}"
 EndProject
@@ -18,6 +21,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "timer", "timer", "{C41FA5A2
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "spi", "spi", "{DE69FC4D-07C3-415F-A8EA-52C1A8EB9EB6}"
+	ProjectSection(SolutionItems) = preProject
+		common_drivers\MCAL\spi\spi_config.h = common_drivers\MCAL\spi\spi_config.h
+		common_drivers\MCAL\spi\spi_interface.h = common_drivers\MCAL\spi\spi_interface.h
+		common_drivers\MCAL\spi\spi_private.h = common_drivers\MCAL\spi\spi_private.h
+		common_drivers\MCAL\spi\spi_program.c = common_drivers\MCAL\spi\spi_program.c
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MCAL", "MCAL", "{7B4D5374-7D51-4EB2-9E0A-54D2842F0AB0}"
 EndProject

@@ -279,6 +279,7 @@
 #define TWAR    (*(volatile unsigned char*)0x22)
 #define TWDR    (*(volatile unsigned char*)0x23)
 
+
 /* TIMSK */
 #define OCIE2   7
 #define TOIE2   6
@@ -385,10 +386,11 @@
 
 /*interrupt functions*/
 
-# define sei()  __asm__ __volatile__ ("sei" ::)
-# define cli()  __asm__ __volatile__ ("cli" ::)
-# define reti()  __asm__ __volatile__ ("reti" ::)
-# define ret()  __asm__ __volatile__ ("ret" ::)
+#define sei()         (SET(AVR_SREG_REG,AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT))			/* Sets Global Interrupt Enable Bit   */
+#define cli()         (CLR(AVR_SREG_REG,AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT))			/* Clears Global Interrupt Enable Bit */
+
+
+
 
 #  define ISR_NOBLOCK    __attribute__((interrupt))
 #  define ISR_NAKED      __attribute__((naked))

@@ -11,6 +11,4 @@
 
 
 
-
-
 #endif /* APP_INTERFACE_H_ */

@@ -8,8 +8,10 @@
 
 #ifndef APP_PRIVATE_H_
 #define APP_PRIVATE_H_
-
-
+#include "spi_interface.h"
+#include "spi_private.h"
+#include "spi_config.h"
+#include "i2c_config.h"
 
 
 
