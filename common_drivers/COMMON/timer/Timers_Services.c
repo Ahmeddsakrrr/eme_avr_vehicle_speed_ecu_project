@@ -23,8 +23,8 @@ void delay_ms(uint16_t_ uint16_a_time)
 	{
 		 while(GET_BIT(TIFR,OCF2)==LOW);
 		 SET_BIT(TIFR,OCF2);
-		 
-		 timer2_change--;
+
+        uint16_a_time--;
 	}
 }
 

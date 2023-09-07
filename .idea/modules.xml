@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Vehicle_speed_ecu.iml" filepath="$PROJECT_DIR$/.idea/Vehicle_speed_ecu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/eme_avr_vehicle_speed_ecu_project.iml" filepath="$PROJECT_DIR$/.idea/eme_avr_vehicle_speed_ecu_project.iml" />
     </modules>
   </component>
 </project>
