@@ -7,6 +7,8 @@
 
 #include "lcd_interface.h"
 #include "lcd_private.h"
+#include <stdlib.h>
+#include "bit_math.h"
 
 /*  current cursor position (0 -> 15 @line1, 16 -> 31 @line2) */
 static uint8_t_ u8_gs_cursor = 0;
@@ -262,13 +264,18 @@ void lcd_shift_clear(void)
 }
 
 
-void lcd_print_number(uint16_t_ uint16_a_number, uint8_t_ lcd_line, uint8_t_ lcd_col)
+void LCD_printNumber(uint16_t_ uint16_a_number, uint8_t_ lcd_line, uint8_t_ lcd_col)
 {
-	/* set cursor location */
-	lcd_set_cursor(lcd_line, lcd_col);
-	
-	/* parse number and print */
-	/* todo sakr */
+    char str_buff[10] = {0};
+
+    /* Convert number to string */
+    itoa(uint16_a_number, str_buff, 10);
+
+    /* Set LCD Cursor Location */
+    lcd_set_cursor(lcd_line, lcd_col);
+
+    /* print Number */
+    lcd_send_string((uint8_t_ *)str_buff);
 }
 
 /**

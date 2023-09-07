@@ -143,7 +143,7 @@ void lcd_shift_clear(void);
 
 void lcd_init_test(void);
 
-void lcd_print_number(uint16_t_ uint16_a_number, uint8_t_ lcd_line, uint8_t_ lcd_col);
+void LCD_printNumber(uint16_t_ uint16_a_number, uint8_t_ lcd_line, uint8_t_ lcd_col);
 void lcd_print_number_from_end(uint16_t_ uint16_a_number, uint8_t_ lcd_line, uint8_t_ lcd_col);
 
 

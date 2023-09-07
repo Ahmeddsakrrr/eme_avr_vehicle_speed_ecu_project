@@ -31,16 +31,43 @@ en_throttle_t throttle_init(){
 }
 uint16_t_ throttle_read_state(void){
 
-    adc_read(ADC_CH_2);
+    adc_read(ADC_CH_0);
 
-    if(uint16_g_last_reading[ADC_CH_2]>=0 &&uint16_g_last_reading[ADC_CH_2]<=150)
+    if(((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024) >= 0 && ((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)<=400)
     {
         throttle_readings=0;
     }
 
-    else if(uint16_g_last_reading[ADC_CH_2]>=700 && uint16_g_last_reading[ADC_CH_2]<=944 )
+    else if(((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)>=450 && ((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)<=700 )
     {
-        throttle_readings=500;
+        throttle_readings=30;
+    }
+    else if(((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)>=800 && ((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)<=1200 )
+    {
+    throttle_readings=40;
     }
 
+    else if(((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)>=1600 && ((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)<=2000 )
+    {
+        throttle_readings=60;
+    }
+
+    else if(((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)>=2100 && ((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)<=3200)
+    {
+        throttle_readings=80;
+    }
+
+    else if(((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)>=3300 && ((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)<=3800 )
+    {
+        throttle_readings=100;
+    }
+    else if(((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)>=3900 && ((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024)<=4200 )
+    {
+        throttle_readings=150;
+    }
+    else if (((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024) >= 4200)
+    {
+        throttle_readings=200;
+    }
+    return throttle_readings;
 }

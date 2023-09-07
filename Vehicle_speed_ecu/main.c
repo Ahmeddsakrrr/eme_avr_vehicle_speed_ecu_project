@@ -6,10 +6,12 @@
  */ 
 
 #include "App/app_interface.h"
-int main(void)
-{
+
+
+
+int main(void) {
     app_init();
     app_start();
-    
-}
 
+
+}

@@ -18,7 +18,7 @@ include_directories(Vehicle_speed_ecu/HAL/ldr)
 include_directories(Vehicle_speed_ecu/HAL/led)
 include_directories(Vehicle_speed_ecu/MCAL/adc)
 include_directories(Vehicle_speed_ecu/MCAL/gpio)
-include_directories("C:/Users/A M/eme_avr_vehicle_speed_ecu_project/Vehicle_speed_ecu/HAL/throttle/")
+include_directories(Vehicle_speed_ecu/HAL/throttle/)
 
 
 add_executable(Vehicle_speed_ecu
@@ -26,8 +26,8 @@ add_executable(Vehicle_speed_ecu
         comm_ecu/APP/app_interface.h
         comm_ecu/APP/app_private.h
         comm_ecu/APP/app_program.c
-        common_drivers/COMMON/timer/timer.c
-        common_drivers/COMMON/timer/timer.h
+        common_drivers/COMMON/timer/timer_interface.h
+        common_drivers/COMMON/timer/timer_program.c
         common_drivers/COMMON/timer/Timers_Services.c
         common_drivers/COMMON/timer/Timers_Services.h
         common_drivers/COMMON/bit_math.h
@@ -69,13 +69,7 @@ add_executable(Vehicle_speed_ecu
         Vehicle_speed_ecu/main.c
         Vehicle_speed_ecu/MCAL/i2c/i2c_private.h
         Vehicle_speed_ecu/HAL/throttle/throttle.c
-        Vehicle_speed_ecu/HAL/throttle/throttle.c
-        Vehicle_speed_ecu/HAL/throttle/throttle.c
         Vehicle_speed_ecu/HAL/throttle/throttle.h
-        Vehicle_speed_ecu/HAL/throttle/throttle.h
-        "C:/Users/A M/eme_avr_vehicle_speed_ecu_project/Vehicle_speed_ecu/HAL/throttle/throttle.h"
-        Vehicle_speed_ecu/HAL/throttle/throttle.h
-        Vehicle_speed_ecu/HAL/throttlee/throttlee.c
-        Vehicle_speed_ecu/HAL/throttlee/throttlee.c
+        Vehicle_speed_ecu/MCAL/timer/Timers_Services.h
 
 )

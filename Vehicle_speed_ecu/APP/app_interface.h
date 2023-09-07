@@ -21,6 +21,14 @@ typedef enum
     APP_STATE_SHOW_CAR_STATE
 }en_app_state_t;
 
+typedef enum
+{
+    APP_SUB_STATE_P=0,
+    APP_SUB_STATE_R,
+    APP_SUB_STATE_N,
+    APP_SUB_STATE_D,
+}en_app_sub_state_t;
+
 
 
 void app_init   (void);
