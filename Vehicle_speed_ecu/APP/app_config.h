@@ -24,6 +24,7 @@
 #define KPD_SETLIMIT                                '3'
 #define SPEED_LIMIT_OFF                              0
 #define SPEED_LIMIT_ON                               1
+#define speed_
 
 
                                                                     /*      {'1','2','3','P'},

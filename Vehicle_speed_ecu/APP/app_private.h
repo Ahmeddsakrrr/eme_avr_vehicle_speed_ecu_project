@@ -27,4 +27,7 @@
 #include "timer_interface.h"
 #include "Timers_Services.h"
 
+/* Include MCAL */
+#include "spi_interface.h"
+
 #endif /* APP_PRIVATE_H_ */

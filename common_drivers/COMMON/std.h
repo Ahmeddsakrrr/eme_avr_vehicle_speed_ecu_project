@@ -48,8 +48,8 @@ typedef uint8_t_ boolean;
 #define ZERO (0)
 #define NOT_INIT (-1)
 
-#define INCREMENT(x) (x++)
-#define DECREMENT(x) (x--)
+#define INCREMENT(x) (++x)
+#define DECREMENT(x) (--x)
 #define INC_WITH_MOD(x, mod) x = (x+1) > mod ? ((x + 1) % mod) : (x+1)
 #define CEIL_NUMBER(x) ((x - (int)(x)) > 0 ? (int)(x + 1.0) : (int)(x))
 

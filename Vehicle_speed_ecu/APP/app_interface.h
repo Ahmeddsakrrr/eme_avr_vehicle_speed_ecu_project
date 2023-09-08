@@ -10,6 +10,11 @@
 #define APP_INTERFACE_H_
 
 
+/* Convert char to digit macro */
+#define CONVERT_CHAR_TO_DIGIT(kpd_value) (kpd_value - '0')
+
+/* Convert digit to char macro */
+#define CONVERT_DIGIT_TO_CHAR(kpd_value) (kpd_value + '0')
 
 typedef enum
 {
@@ -18,7 +23,7 @@ typedef enum
     APP_STATE_MAIN ,
     APP_STATE_SPEED_LIMIT_ON_OFF,
     APP_STATE_SET_LIMIT,
-    APP_STATE_SHOW_CAR_STATE
+    APP_STATE_GET_LIMIT
 }en_app_state_t;
 
 typedef enum
