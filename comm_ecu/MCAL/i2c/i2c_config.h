@@ -31,10 +31,10 @@ typedef enum
      * Master Status
      ***********************************************************************/
 
-    /* A START condition has been transmitted */
+    /* A APP_COMM_CMD_START condition has been transmitted */
     I2C_STATUS_MASTER_START_SENT = 0x08,
 
-    /* A repeated START condition has been transmitted */
+    /* A repeated APP_COMM_CMD_START condition has been transmitted */
     I2C_STATUS_MASTER_REP_START_SENT = 0x10,
 
     /* SLA+W has been transmitted; ACK has been received */
@@ -98,7 +98,7 @@ typedef enum
     /* Data byte in TWDR has been transmitted; NOT ACK has been received */
     I2C_STATUS_SLAVE_DATA_SENT_NACK = 0xC0,
 
-    /* A STOP condition or repeated START condition has been received while still addressed as slave */
+    /* A STOP condition or repeated APP_COMM_CMD_START condition has been received while still addressed as slave */
     I2C_STATUS_SLAVE_STOP_OR_REP_START_RECEIVED = 0xA0
 
 } en_i2c_status_t;

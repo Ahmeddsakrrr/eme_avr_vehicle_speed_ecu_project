@@ -36,16 +36,16 @@ void app_start()
 	{
 		/* start spi communication */
 		
-		uint8_g_received_data=spi_transceiver(NO_ACK);
+		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_NO_ACK);
 		
 		
 		/* check whether the data is valid ,
 		if its valid transmit ACK=1 ,if it's not transmit NO_ACK=0 */
 		
-		if(uint8_g_received_data==START)
+		if(uint8_g_received_data == APP_COMM_CMD_START)
 		{
-			uint8_g_received_data=spi_transceiver(ACK);
-			uint8_g_received_data=spi_transceiver(NO_ACK);
+			uint8_g_received_data=spi_transceiver(APP_COMM_CMD_ACK);
+			uint8_g_received_data=spi_transceiver(APP_COMM_CMD_NO_ACK);
 			
 			/* check the received data wants information about limited speed or  ,
 			wants to send the limited speed  */
@@ -53,16 +53,16 @@ void app_start()
 				switch(uint8_g_received_data)
 				{
 					
-					case RECIVED_LIMIT_SPEED:
+					case APP_COMM_CMD_REQUESTING_SPD_LIMIT:
 					
 					receive_limit_speed();
 					break;
 					
-					case SEND_LIMIT_SPEED:
+					case APP_COMM_CMD_SENDING_SPD_LIMIT:
 					send_limit_speed();
 									break;
 					default:
-					uint8_g_received_data=spi_transceiver(NO_ACK);
+					uint8_g_received_data=spi_transceiver(APP_COMM_CMD_NO_ACK);
 					break;
 				}
 			}
@@ -83,18 +83,18 @@ void app_start()
 
 static void receive_limit_speed()
 {
-	uint8_g_received_data=spi_transceiver(ACK);
-	uint8_g_received_data=spi_transceiver(NO_ACK);
+	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_ACK);
+	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_NO_ACK);
 	
-	while((uint8_g_received_data <MIN_SPEED )||( uint8_g_received_data >MAX_SPEED))
+	while((uint8_g_received_data < APP_CAR_SPD_LIMIT_MIN_SPEED ) || (uint8_g_received_data > APP_CAR_MAX_SPEED))
 	{
-		uint8_g_received_data=spi_transceiver(NO_ACK);
+		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_NO_ACK);
 		
 		
 	}
-	uint8_g_received_data=spi_transceiver(ACK);
+	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_ACK);
 	
-	Eeprom_WriteByte(EEPROM_ADDRESS,uint8_g_received_data);
+	Eeprom_WriteByte(EEPROM_SPD_ADDRESS, uint8_g_received_data);
 	uint8_g_check_data=1;
 }
 
@@ -105,9 +105,9 @@ static void receive_limit_speed()
 static void send_limit_speed()
 {
 	
-	uint8_g_received_data=spi_transceiver(ACK);
+	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_ACK);
 	
-	Eeprom_ReadByte(EEPROM_ADDRESS,& uint8_g_send_limit_speed);
+	Eeprom_ReadByte(EEPROM_SPD_ADDRESS, & uint8_g_send_limit_speed);
 	
 	uint8_g_received_data=spi_transceiver( uint8_g_send_limit_speed);
 	uint8_g_check_data=1;

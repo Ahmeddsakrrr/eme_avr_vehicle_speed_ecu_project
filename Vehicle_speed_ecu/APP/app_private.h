@@ -30,4 +30,22 @@
 /* Include MCAL */
 #include "spi_interface.h"
 
+/* Helping Macros */
+/* Convert char to digit macro */
+#define CONVERT_CHAR_TO_DIGIT(kpd_value) (kpd_value - '0')
+
+/* Convert digit to char macro */
+#define CONVERT_DIGIT_TO_CHAR(kpd_value) (kpd_value + '0')
+
+/* Communication commands */
+#define   APP_COMM_CMD_ACK      1
+#define   APP_COMM_CMD_NO_ACK   0
+
+#define   APP_COMM_CMD_START                 5
+#define   APP_COMM_CMD_REQUESTING_SPD_LIMIT  10
+#define   APP_COMM_CMD_SENDING_SPD_LIMIT     15
+
+/* Memory Addresses */
+#define   EEPROM_SPD_ADDRESS    5
+
 #endif /* APP_PRIVATE_H_ */

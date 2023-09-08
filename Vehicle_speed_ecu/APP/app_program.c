@@ -436,25 +436,25 @@ static void app_switch_state(en_app_state_t state){
 
 static void send_limit_speed(uint8_t_ uint8_a_speed )
 {
-	uint8_g_received_data=spi_transceiver(START );
+	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_START );
 	
-	while(uint8_g_received_data!=ACK)
+	while(uint8_g_received_data != APP_COMM_CMD_ACK)
 	{
 		delay_us(5);
-		uint8_g_received_data=spi_transceiver(START);
+		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_START);
 	}
 	
 	
-	uint8_g_received_data=spi_transceiver(SEND_LIMIT_SPEED);
-	while(uint8_g_received_data!=ACK)
+	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_SENDING_SPD_LIMIT);
+	while(uint8_g_received_data != APP_COMM_CMD_ACK)
 	{
 		delay_us(5);
-		uint8_g_received_data=spi_transceiver(SEND_LIMIT_SPEED);
+		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_SENDING_SPD_LIMIT);
 		
 	}
 	
 	uint8_g_received_data=spi_transceiver(uint8_a_speed);
-	while(uint8_g_received_data!=ACK)
+	while(uint8_g_received_data != APP_COMM_CMD_ACK)
 	{
 		delay_us(5);
 		uint8_g_received_data=spi_transceiver(uint8_a_speed);
@@ -463,27 +463,27 @@ static void send_limit_speed(uint8_t_ uint8_a_speed )
 
 static void receive_limit_speed()
 {
-	uint8_g_received_data=spi_transceiver(START );
-	while(uint8_g_received_data!=ACK)
+	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_START );
+	while(uint8_g_received_data != APP_COMM_CMD_ACK)
 	{
 		delay_us(5);
-		uint8_g_received_data=spi_transceiver(START );
+		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_START );
 	}
 	
-	uint8_g_received_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
 	
-	while(uint8_g_received_data!=ACK)
+	while(uint8_g_received_data != APP_COMM_CMD_ACK)
 	{
 		delay_us(5);
-		uint8_g_received_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
 	}
 	delay_us(150);
-	uint8_g_received_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
 	
 	while(((uint8_g_received_data<30) || uint8_g_received_data>220))
 	{
 		delay_us(5);
-		uint8_g_received_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
 		
 		
 	}
