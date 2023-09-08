@@ -47,8 +47,8 @@ void INT_VECT(void)
 /*************************************************************************************************************
  * 									Global interrupt control macros 
  ************************************************************************************************************/
-#define sei()         (SET(AVR_SREG_REG,AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT))			/* Sets Global Interrupt Enable Bit   */
-#define cli()         (CLR(AVR_SREG_REG,AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT))			/* Clears Global Interrupt Enable Bit */
+#define sei()         (SET_BIT(AVR_SREG_REG,AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT))			/* Sets Global Interrupt Enable Bit   */
+#define cli()         (CLR_BIT(AVR_SREG_REG,AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT))			/* Clears Global Interrupt Enable Bit */
 
 
 #endif /* INTERRUPTS_H_ */

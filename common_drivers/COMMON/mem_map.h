@@ -384,20 +384,4 @@
 
 #  define BAD_vect        __vector_default
 
-/*interrupt functions*/
-
-#define sei()         (SET(AVR_SREG_REG,AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT))			/* Sets Global Interrupt Enable Bit   */
-#define cli()         (CLR(AVR_SREG_REG,AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT))			/* Clears Global Interrupt Enable Bit */
-
-
-
-
-#  define ISR_NOBLOCK    __attribute__((interrupt))
-#  define ISR_NAKED      __attribute__((naked))
-
-
-#  define ISR(vector,...)            \
-void vector (void) __attribute__ ((signal))__VA_ARGS__ ; \
-void vector (void)
-
 #endif /* MEMMAP_H_ */
