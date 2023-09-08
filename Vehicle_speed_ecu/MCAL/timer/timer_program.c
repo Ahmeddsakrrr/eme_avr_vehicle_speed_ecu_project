@@ -1,5 +1,6 @@
 #include "gpio_interface.h"
 #include "timer_interface.h"
+#include "interrupts.h"
 
 /*************************Pointer to functions to be assigned to ISR*********************************/
 

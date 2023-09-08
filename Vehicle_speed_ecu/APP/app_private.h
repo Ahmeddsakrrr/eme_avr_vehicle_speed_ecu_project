@@ -24,6 +24,7 @@
 /* Include COMMON */
 #include "std.h"
 #include "bit_math.h"
+#include "interrupts.h"
 #include "timer_interface.h"
 #include "Timers_Services.h"
 
