@@ -29,6 +29,7 @@
 #define   APP_COMM_CMD_REQUESTING_SPD_LIMIT  10
 #define   APP_COMM_CMD_SENDING_SPD_LIMIT     15
 
+
 /* Memory Addresses */
 #define   EEPROM_SPD_ADDRESS    5
 

@@ -13,7 +13,7 @@
 
 /* App functions prototypes */
 static void send_limit_speed(uint8_t_ uint8_a_speed );
-static void receive_limit_speed();
+static en_eeprom_status_data_t receive_limit_speed();
 static void app_switch_state(en_app_state_t en_a_app_state);
 static void app_key_changed(en_read_states_t en_l_kl_state);
 static void app_timer_tick_event(void);
@@ -38,7 +38,7 @@ static uint32_t_    uint16_throttle_g_readings                          ;
 static uint8_t_     uint8_gs_seconds_elapsed    =   ZERO                ;
 static uint8_t_     uint8_gs_set_speed_index    =   3                   ;
 static uint8_t_     uint8_g_speed_limit         =   APP_CAR_MAX_SPEED   ;
-
+uint8_t_ uint8_g_limited_speed   =ZERO;
 void app_init(void)
 {
     /* Init LCD */
@@ -659,8 +659,14 @@ static void app_timer_tick_event(void)
     uint8_gs_seconds_elapsed++;
 }
 
+
+
+/* take the limited speed as an argument and transmit it via the spi protocol*/
+
 static void send_limit_speed(uint8_t_ uint8_a_speed )
 {
+	/* transmit the start byte to initiate the spi protocol and keep transmitting 
+	until a ACK =1 is received*/
 	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_START );
 	
 	while(uint8_g_received_data != APP_COMM_CMD_ACK)
@@ -669,6 +675,8 @@ static void send_limit_speed(uint8_t_ uint8_a_speed )
 		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_START);
 	}
 	
+	/* transmit the specific value = 10 to indicate  
+	sending limited speed , keep sending until a ACK =1 is received*/
 	
 	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_SENDING_SPD_LIMIT);
 	while(uint8_g_received_data != APP_COMM_CMD_ACK)
@@ -677,7 +685,7 @@ static void send_limit_speed(uint8_t_ uint8_a_speed )
 		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_SENDING_SPD_LIMIT);
 		
 	}
-	
+	/* transmit the limited speed , keep sending until a ACK =1 is received*/
 	uint8_g_received_data=spi_transceiver(uint8_a_speed);
 	while(uint8_g_received_data != APP_COMM_CMD_ACK)
 	{
@@ -686,8 +694,17 @@ static void send_limit_speed(uint8_t_ uint8_a_speed )
 	}
 }
 
-static void receive_limit_speed()
+
+
+/* received the limited speed via spi protocol  */
+
+static en_eeprom_status_data_t receive_limit_speed()
 {
+	
+	en_eeprom_status_data_t en_eeprom_status_data_l_check=OK;
+	/* transmit the start value to initiate the spi protocol ,and keep transmitting 
+	until  ACK =1 is received*/
+	
 	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_START );
 	while(uint8_g_received_data != APP_COMM_CMD_ACK)
 	{
@@ -695,6 +712,8 @@ static void receive_limit_speed()
 		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_START );
 	}
 	
+	/* request the limited speed, keep sending until a ACK =1 is received*/
+	
 	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
 	
 	while(uint8_g_received_data != APP_COMM_CMD_ACK)
@@ -702,14 +721,28 @@ static void receive_limit_speed()
 		delay_us(5);
 		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
 	}
-	delay_us(150);
-	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
 	
-	while(((uint8_g_received_data<30) || uint8_g_received_data>220))
+	delay_us(150);
+	/* received limited speed*/
+	uint8_g_limited_speed=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
+	/* received limited speed*/
+	while(((uint8_g_limited_speed<APP_CAR_SPD_LIMIT_MIN_SPEED) || uint8_g_limited_speed>APP_CAR_MAX_SPEED) &&(uint8_g_limited_speed!= EEPROM_DEFAULT_DATA))
 	{
 		delay_us(5);
-		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
-		
+		uint8_g_limited_speed=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
 		
 	}
+	
+	/*check if the received data is equal the default of the eeprom if true it
+	 indicates that no speed has been set*/
+	if(uint8_g_limited_speed == EEPROM_DEFAULT_DATA)
+	{
+		en_eeprom_status_data_l_check = EMPTY;
+	}
+	
+	else
+	{
+		/*do nothing*/
+	}
+	return en_eeprom_status_data_l_check;
 }

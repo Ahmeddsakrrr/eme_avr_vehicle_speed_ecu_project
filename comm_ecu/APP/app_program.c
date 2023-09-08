@@ -106,9 +106,14 @@ static void send_limit_speed()
 {
 	
 	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_ACK);
+	/* retrieve the saved speed from EEPROM*/
 	
 	Eeprom_ReadByte(EEPROM_SPD_ADDRESS, & uint8_g_send_limit_speed);
 	
+	/* send the limited speed*/
 	uint8_g_received_data=spi_transceiver( uint8_g_send_limit_speed);
 	uint8_g_check_data=1;
 }
+
+
+	

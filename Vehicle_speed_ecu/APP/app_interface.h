@@ -34,6 +34,12 @@ typedef enum
 
 
 
+typedef enum{
+
+	EMPTY=0,
+	OK,
+}en_eeprom_status_data_t;
+
 void app_init   (void);
 void app_start  (void);
 
