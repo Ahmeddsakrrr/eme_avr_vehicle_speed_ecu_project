@@ -190,7 +190,7 @@ void app_start(void)
                     if(FALSE == bool_gs_speed_limit_enabled)
                     {
                         /* INFORM THAT SPEED LIMIT IS OFF */
-                        lcd_set_cursor(LCD_LINE2,LCD_COL0);
+                        lcd_set_cursor(LCD_LINE3,LCD_COL0);
                         lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_OFF);
                         APP_BUZZ(APP_NOTIFY_BUZZ_DURATION_MS);
                         /* Return back to the options menu */
@@ -198,7 +198,7 @@ void app_start(void)
                     else if(TRUE == bool_gs_speed_limit_enabled)
                     {
                         /* INFORM THAT SPEED LIMIT IS ON */
-                        lcd_set_cursor(LCD_LINE2,LCD_COL0);
+                        lcd_set_cursor(LCD_LINE3,LCD_COL0);
                         lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_ON);
                         APP_BUZZ(APP_NOTIFY_BUZZ_DURATION_MS);
 
@@ -505,10 +505,10 @@ static void app_switch_state(en_app_state_t en_a_app_state)
             lcd_send_string(APP_STR_OPT_DASHBOARD);
 
             lcd_set_cursor(LCD_LINE2, LCD_COL0);
-            lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_OFF);
+            lcd_send_string(APP_STR_OPT_SET_SPEED_LIMIT);
 
             lcd_set_cursor(LCD_LINE3, LCD_COL0);
-            lcd_send_string(APP_STR_OPT_SET_SPEED_LIMIT);
+            lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_OFF);
 
             /* Update global app en_a_app_state flag */
             en_gs_app_state = APP_STATE_SHOW_OPTIONS;
