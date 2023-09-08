@@ -9,9 +9,8 @@
 #include "app_interface.h"
 #include "app_config.h"
 #include "app_private.h"
-#include "Timers_Services.h"
 
-uint8_t_ uint8_g_recived_data=0 ;
+uint8_t_ uint8_g_received_data=0 ;
 
 /* App functions prototypes */
 static void send_limit_speed(uint8_t_ uint8_a_speed );
@@ -26,14 +25,14 @@ static  en_app_sub_state_t  en_gs_app_sub_state   =          APP_SUB_STATE_P ;
 uint8_t_ uint8_g_readings;
 uint8_t_ uint8_Gear_mode =                         KPD_CAR_MODE_P;
 uint8_t_ Speed_limit_f   =                           SPEED_LIMIT_OFF;
-uint8_t_ uint8_g_kpd_value;
+uint8_t_ uint8_g_kpd_value= NULL;
 uint32_t_ uint16_throttle_g_readings;
 
 /* Global static set speed index */
 static uint8_t_ uint8_gs_set_speed_index= 3;
 
 /* Global speed limit */
-uint8_t_ uint8_g_speed_limit;
+uint8_t_ uint8_g_speed_limit= 200;
 
 void app_init(void)
 {
@@ -45,30 +44,40 @@ void app_init(void)
 
     /* Init KL15 */
     KL_Switch_init();
+
     /*init ldr*/
     ldr_init();
 
-    /* Init LCD */
-    lcd_init();
+    /* Init LED */
+    Led_Init(LED_RED_ARGS);
+    Led_Init(LED_GREEN_ARGS);
+    Led_Init(LED_BLUE_ARGS);
+    Led_Init(LED_YELLOW_ARGS);
+
+    /* Init Throttle */
+    throttle_init();
+
+    /* Init Keypad */
+    keypad_init();
 	
 	/* Init TIMER 2 */
 	timer2_init(TIMER2_CTC_MODE);
 
-
 }
 void app_start(void)
 {
-    /*local variables*/
+    /* local variables */
     static uint8_t_  uint8_l_speed_limit_btn =0;
 
-    /*init local variables*/
-     uint8_g_kpd_value=NULL;
-     /*get keypad current value*/
-
+    /*get keypad current value*/
+    uint8_g_kpd_value= keypad_read();
 
     while (TRUE) {
+
         uint8_g_kpd_value =keypad_read();
+
         uint16_throttle_g_readings= throttle_read_state();
+
         switch (en_gs_app_state)
         {
 
@@ -168,7 +177,7 @@ void app_start(void)
 
                    // LCD_printNumber(((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024),3,0);
                               /*THE CLUTCH GEARS D1 D2 D3 D4 D5 D6 D7*/
-                    if(uint16_throttle_g_readings>=0 && uint16_throttle_g_readings<=30)
+                    if(uint16_throttle_g_readings>=0 && uint16_throttle_g_readings<=30 && uint16_throttle_g_readings<=uint8_g_speed_limit)
                     {
                         LCD_printNumber(1,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(0,LCD_LINE2,LCD_COL10);
@@ -176,61 +185,64 @@ void app_start(void)
 
                     }
 
-                    else if(uint16_throttle_g_readings>30 && uint16_throttle_g_readings<=40)
+                    else if(uint16_throttle_g_readings>30 && uint16_throttle_g_readings<=40 && uint16_throttle_g_readings<=uint8_g_speed_limit)
                     {
                         LCD_printNumber(2,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(0,LCD_LINE2,LCD_COL10);
                         LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL11);
                     }
 
-                    else if(uint16_throttle_g_readings>40 && uint16_throttle_g_readings<=60)
+                    else if(uint16_throttle_g_readings>40 && uint16_throttle_g_readings<=60 && uint16_throttle_g_readings<=uint8_g_speed_limit)
                     {
                         LCD_printNumber(3,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(0,LCD_LINE2,LCD_COL10);
                         LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL11);
                     }
 
-                    else if(uint16_throttle_g_readings>60 && uint16_throttle_g_readings<=80)
+                    else if(uint16_throttle_g_readings>60 && uint16_throttle_g_readings<=80 && uint16_throttle_g_readings<=uint8_g_speed_limit)
                     {
                         LCD_printNumber(4,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(0,LCD_LINE2,LCD_COL10);
                         LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL11);
                     }
 
-                    else if(uint16_throttle_g_readings>80 && uint16_throttle_g_readings<=100)
+                    else if(uint16_throttle_g_readings>80 && uint16_throttle_g_readings<=100 && uint16_throttle_g_readings<=uint8_g_speed_limit)
                     {
                         LCD_printNumber(5,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL10);
                     }
 
-                    else if(uint16_throttle_g_readings>100 && uint16_throttle_g_readings<=150)
+                    else if(uint16_throttle_g_readings>100 && uint16_throttle_g_readings<=150 && uint16_throttle_g_readings<=uint8_g_speed_limit)
                     {
 
                         LCD_printNumber(6,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL10);
                     }
 
-                    else
+                    else if (uint16_throttle_g_readings>150 && uint16_throttle_g_readings<=200 && uint16_throttle_g_readings<=uint8_g_speed_limit)
                     {
                         LCD_printNumber(7,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL10);
                     }
-
+                    else
+                    {
+                        /* Do Nothing */
+                    }
                 }
                 break;
             }
             case APP_STATE_SPEED_LIMIT_ON_OFF:
             {
-
                 if(uint8_l_speed_limit_btn % 2 == ZERO){
                     Speed_limit_f = SPEED_LIMIT_ON;
 
                 }
                 else if(uint8_l_speed_limit_btn %2 != ZERO){
                     Speed_limit_f = SPEED_LIMIT_OFF;
-
                 }
                 app_switch_state(APP_STATE_SPEED_LIMIT_ON_OFF);
+
+                break;
             }
             case APP_STATE_SET_LIMIT:
             {
@@ -240,7 +252,7 @@ void app_start(void)
                         /* Parse Numbers */
                         if(3 == uint8_gs_set_speed_index)
                         {
-                            uint8_g_speed_limit+= CONVERT_CHAR_TO_DIGIT(uint8_g_kpd_value) * 100;
+                            uint8_g_speed_limit= CONVERT_CHAR_TO_DIGIT(uint8_g_kpd_value) * 100;
 
                             /* Send pressed char */
                             LCD_sendChar(uint8_g_kpd_value);
@@ -263,6 +275,7 @@ void app_start(void)
                         /* Update index */
                         DECREMENT(uint8_gs_set_speed_index);
 
+                        /* Check if the index equal to zero */
                         if(ZERO == uint8_gs_set_speed_index )
                         {
                             /* Send speed limit to the slave microcontroller using SPI */
@@ -281,7 +294,10 @@ void app_start(void)
                 break;
             }
             default:
+            {
                 break;
+            }
+
         }
     }
 }
@@ -299,8 +315,10 @@ static void app_switch_state(en_app_state_t state){
         {
             /* clear lcd */
             lcd_clear();
+
             /*show title*/
             lcd_send_string(APP_STR_TITLE);
+
             /* lcd shows the options int the main */
             lcd_set_cursor(LCD_LINE1, LCD_COL0);
             lcd_send_string("1-MAIN");
@@ -334,7 +352,6 @@ static void app_switch_state(en_app_state_t state){
                     break;
                 }
 
-
                 else if(en_gs_app_sub_state == APP_SUB_STATE_N){
                     lcd_set_cursor(LCD_LINE1,LCD_COL0);
                     lcd_send_string("1-GEAR : N");
@@ -345,8 +362,6 @@ static void app_switch_state(en_app_state_t state){
                     en_gs_app_state = APP_STATE_MAIN;
                     break;
                 }
-
-
 
                 else if(en_gs_app_sub_state == APP_SUB_STATE_R){
                     lcd_set_cursor(LCD_LINE1,LCD_COL0);
@@ -378,12 +393,10 @@ static void app_switch_state(en_app_state_t state){
                 lcd_clear();
                 if(Speed_limit_f == SPEED_LIMIT_OFF)
                 {
-                   
                     /*INFORM THAT SPEED LIMIT IS OFF*/
                     lcd_set_cursor(LCD_LINE1,LCD_COL0);
                     lcd_send_string("Speed limit off");
                     delay_ms(300);
-                    en_gs_app_state = APP_STATE_SPEED_LIMIT_ON_OFF;
                     /*return back to the options menu */
                 }
                 else if(Speed_limit_f == SPEED_LIMIT_ON)
@@ -393,22 +406,28 @@ static void app_switch_state(en_app_state_t state){
                     lcd_set_cursor(LCD_LINE1,LCD_COL0);
                     lcd_send_string("Speed limit on");
                     delay_ms(300);
-                    en_gs_app_state = APP_STATE_SPEED_LIMIT_ON_OFF;
                 }
-                app_switch_state(APP_STATE_SHOW_OPTIONS);
+                en_gs_app_state= APP_STATE_SPEED_LIMIT_ON_OFF;
                 break;
             }
             case APP_STATE_SET_LIMIT :
             {
                 /* clear lcd */
                 lcd_clear();
-                /**/
-                lcd_set_cursor(LCD_LINE1,LCD_COL0);
+
+                /* Show Title */
+                lcd_send_string(APP_STR_TITLE);
+
+                /* Set LCD Cursor position */
+                lcd_set_cursor(LCD_LINE2,LCD_COL7);
                 lcd_send_string("Enter speed limit : ");
 
+                /* reset index flag */
+                uint8_gs_set_speed_index=3;
+
+                /* Update the global state to set limit */
                 en_gs_app_state = APP_STATE_SET_LIMIT;
                 break;
-
             }
         }
 
@@ -417,56 +436,54 @@ static void app_switch_state(en_app_state_t state){
 
 static void send_limit_speed(uint8_t_ uint8_a_speed )
 {
-	uint8_g_recived_data=spi_transceiver(START );
+	uint8_g_received_data=spi_transceiver(START );
 	
-	while(uint8_g_recived_data!=ACK)
+	while(uint8_g_received_data!=ACK)
 	{
 		delay_us(5);
-		uint8_g_recived_data=spi_transceiver(START);
+		uint8_g_received_data=spi_transceiver(START);
 	}
 	
 	
-	uint8_g_recived_data=spi_transceiver(SEND_LIMIT_SPEED);
-	while(uint8_g_recived_data!=ACK)
+	uint8_g_received_data=spi_transceiver(SEND_LIMIT_SPEED);
+	while(uint8_g_received_data!=ACK)
 	{
 		delay_us(5);
-		uint8_g_recived_data=spi_transceiver(SEND_LIMIT_SPEED);
+		uint8_g_received_data=spi_transceiver(SEND_LIMIT_SPEED);
 		
 	}
 	
-	uint8_g_recived_data=spi_transceiver(uint8_a_speed);
-	while(uint8_g_recived_data!=ACK)
+	uint8_g_received_data=spi_transceiver(uint8_a_speed);
+	while(uint8_g_received_data!=ACK)
 	{
 		delay_us(5);
-		uint8_g_recived_data=spi_transceiver(uint8_a_speed);
+		uint8_g_received_data=spi_transceiver(uint8_a_speed);
 	}
 }
 
-
-
 static void receive_limit_speed()
 {
-	uint8_g_recived_data=spi_transceiver(START );
-	while(uint8_g_recived_data!=ACK)
+	uint8_g_received_data=spi_transceiver(START );
+	while(uint8_g_received_data!=ACK)
 	{
 		delay_us(5);
-		uint8_g_recived_data=spi_transceiver(START );
+		uint8_g_received_data=spi_transceiver(START );
 	}
 	
-	uint8_g_recived_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+	uint8_g_received_data=spi_transceiver(RECIVED_LIMIT_SPEED);
 	
-	while(uint8_g_recived_data!=ACK)
+	while(uint8_g_received_data!=ACK)
 	{
 		delay_us(5);
-		uint8_g_recived_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+		uint8_g_received_data=spi_transceiver(RECIVED_LIMIT_SPEED);
 	}
 	delay_us(150);
-	uint8_g_recived_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+	uint8_g_received_data=spi_transceiver(RECIVED_LIMIT_SPEED);
 	
-	while(((uint8_g_recived_data<30) || uint8_g_recived_data>220))
+	while(((uint8_g_received_data<30) || uint8_g_received_data>220))
 	{
 		delay_us(5);
-		uint8_g_recived_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+		uint8_g_received_data=spi_transceiver(RECIVED_LIMIT_SPEED);
 		
 		
 	}
