@@ -31,12 +31,15 @@
 /* Include MCAL */
 #include "spi_interface.h"
 
-/* Helping Macros */
-/* Convert char to digit macro */
+/* Helping Macros/Code Beautify */
 #define CONVERT_CHAR_TO_DIGIT(kpd_value) (kpd_value - '0')
-
-/* Convert digit to char macro */
 #define CONVERT_DIGIT_TO_CHAR(kpd_value) (kpd_value + '0')
+#define SHOW_TITLE_CENTERED_ON_LCD() lcd_set_cursor(LCD_LINE0, LCD_COL3);\
+                            lcd_send_string(APP_STR_TITLE)
+
+#define APP_BUZZ(BUZZ_DURATION) buzz_on();\
+                                delay_ms(BUZZ_DURATION);\
+                                buzz_off()
 
 /* Communication commands */
 #define   APP_COMM_CMD_ACK      1

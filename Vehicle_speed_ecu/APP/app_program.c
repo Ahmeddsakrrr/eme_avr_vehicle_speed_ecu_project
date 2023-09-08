@@ -25,6 +25,7 @@ static  en_app_sub_state_t  en_gs_app_sub_state   =          APP_SUB_STATE_P    
 /* Booleans/Flags */
 static boolean  bool_gs_is_night    = FALSE;
 static boolean  bool_car_sleep_mode = FALSE;
+static boolean  bool_gs_speed_limit_enabled = FALSE;
 
 /* Time elapsed */
 
@@ -32,7 +33,6 @@ static boolean  bool_car_sleep_mode = FALSE;
 static uint8_t_     uint8_g_received_data       =   ZERO                ;
 static uint8_t_     uint8_g_readings                                    ;
 static uint8_t_     uint8_Gear_mode             =   KPD_CAR_MODE_P      ;
-static uint8_t_     Speed_limit_f               =   SPEED_LIMIT_OFF     ;
 static uint8_t_     uint8_g_kpd_value           =   NULL                ;
 static uint32_t_    uint16_throttle_g_readings                          ;
 static uint8_t_     uint8_gs_seconds_elapsed    =   ZERO                ;
@@ -94,6 +94,7 @@ void app_start(void)
 
         /* Update is night flag */
         bool_gs_is_night = APP_LDR_NIGHT_THRESHOLD > LDR_VALUE;
+//        lcd_print_number_from_end(LDR_VALUE, LCD_LINE3, LCD_COL19);
 
         /* Read KL15 Switch State */
         en_l_kl_state = KL_Switch_Read_state();
@@ -156,6 +157,20 @@ void app_start(void)
                     /* Do nothing */
                 }
 
+                /* Check day/night light */
+                if(TRUE == bool_gs_is_night)
+                {
+                    /* Night, turn on car front lights */
+                    Led_TurnOn(APP_CAR_FRONT_LEFT_LIGHT_ARGS);
+                    Led_TurnOn(APP_CAR_FRONT_RIGHT_LIGHT_ARGS);
+                }
+                else
+                {
+                    /* Day, turn off car front lights */
+                    Led_TurnOff(APP_CAR_FRONT_LEFT_LIGHT_ARGS);
+                    Led_TurnOff(APP_CAR_FRONT_RIGHT_LIGHT_ARGS);
+                }
+
                 /* if set button is pressed */
                 if(KPD_SET_LIMIT == uint8_g_kpd_value)
                 {
@@ -167,12 +182,28 @@ void app_start(void)
                     /* Switch state to main */
                     app_switch_state(APP_STATE_MAIN);
                 }
-                else if(KPD_SPEED_LIMIT == uint8_g_kpd_value)
+                else if(KPD_SPEED_LIMIT_TOGGLE == uint8_g_kpd_value)
                 {
-                    /* Increment the speed limit btn variable */
-                    uint8_l_speed_limit_btn++;
-                    /* Switch state to limit on/off */
-                    app_switch_state(APP_STATE_SPEED_LIMIT_ON_OFF);
+                    /* Toggle speed limit */
+                    bool_gs_speed_limit_enabled = (!bool_gs_speed_limit_enabled);
+
+                    if(FALSE == bool_gs_speed_limit_enabled)
+                    {
+                        /* INFORM THAT SPEED LIMIT IS OFF */
+                        lcd_set_cursor(LCD_LINE2,LCD_COL0);
+                        lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_OFF);
+                        APP_BUZZ(APP_NOTIFY_BUZZ_DURATION_MS);
+                        /* Return back to the options menu */
+                    }
+                    else if(TRUE == bool_gs_speed_limit_enabled)
+                    {
+                        /* INFORM THAT SPEED LIMIT IS ON */
+                        lcd_set_cursor(LCD_LINE2,LCD_COL0);
+                        lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_ON);
+                        APP_BUZZ(APP_NOTIFY_BUZZ_DURATION_MS);
+
+                        /* todo retrieve limit from eeprom, if no data request user to input limit first */
+                    }
                 }
                 else
                 {
@@ -208,7 +239,12 @@ void app_start(void)
                     Led_TurnOff(APP_CAR_FRONT_RIGHT_LIGHT_ARGS);
                 }
 
-                if(KPD_CAR_MODE_P == uint8_g_kpd_value)
+                if(KPD_EXIT == uint8_g_kpd_value)
+                {
+                    /* Exit and go back to options screen */
+                    app_switch_state(APP_STATE_SHOW_OPTIONS);
+                }
+                else if(KPD_CAR_MODE_P == uint8_g_kpd_value)
                 {
                     en_gs_app_sub_state=APP_SUB_STATE_P;
                     app_switch_state(APP_STATE_MAIN);
@@ -233,12 +269,13 @@ void app_start(void)
                 }
 
                /* check the substates */
-                if(en_gs_app_sub_state == APP_SUB_STATE_P) {
-                     if(uint16_throttle_g_readings>0){
+                if(en_gs_app_sub_state == APP_SUB_STATE_P)
+                {
+                     if(uint16_throttle_g_readings>ZERO){
                          /* alert with the buzzer "you can't move the car in park mode */
                         buzz_on();
                         lcd_set_cursor(LCD_LINE3,LCD_COL0);
-                        lcd_send_string("error ");
+                        lcd_send_string(APP_STR_ERROR);
                          Led_TurnOn(LED_RED_ARGS);
                     }
                      buzz_off();
@@ -256,10 +293,9 @@ void app_start(void)
                         LCD_printNumber(30,LCD_LINE2,LCD_COL10);
                     }
                 }
-                else if (en_gs_app_sub_state == APP_SUB_STATE_N) {
-
-                    LCD_printNumber(uint16_throttle_g_readings, LCD_LINE2, LCD_COL9);
-                    delay_ms(5000);
+                else if (en_gs_app_sub_state == APP_SUB_STATE_N)
+                {
+//                    LCD_printNumber(uint16_throttle_g_readings, LCD_LINE2, LCD_COL9);
                     LCD_printNumber(000, LCD_LINE2, LCD_COL9);
 
                 }
@@ -322,29 +358,6 @@ void app_start(void)
                 }
                 break;
             }
-            case APP_STATE_SPEED_LIMIT_ON_OFF:
-            {
-                /* Check key state */
-                if(ON != en_l_kl_state)
-                {
-                    app_key_changed(en_l_kl_state);
-                }
-                else
-                {
-                    /* Do nothing */
-                }
-
-                if(uint8_l_speed_limit_btn % 2 == ZERO){
-                    Speed_limit_f = SPEED_LIMIT_ON;
-
-                }
-                else if(uint8_l_speed_limit_btn %2 != ZERO){
-                    Speed_limit_f = SPEED_LIMIT_OFF;
-                }
-                app_switch_state(APP_STATE_SPEED_LIMIT_ON_OFF);
-
-                break;
-            }
             case APP_STATE_SET_LIMIT:
             {
                 /* Check key state */
@@ -391,6 +404,10 @@ void app_start(void)
                         if(ZERO == uint8_gs_set_speed_index )
                         {
                             /* Send speed limit to the slave microcontroller using SPI */
+                            /* todo show please wait screen */
+                            lcd_clear();
+                            lcd_set_cursor(LCD_LINE2, LCD_COL2);
+                            lcd_send_string(APP_STR_SAVING_LIMIT);
                             send_limit_speed(uint8_g_speed_limit);
                         }
                         else
@@ -440,6 +457,10 @@ static void app_switch_state(en_app_state_t en_a_app_state)
         }
         case APP_CAR_READY:
         {
+            lcd_clear();
+
+            SHOW_TITLE_CENTERED_ON_LCD();
+
             /* Turn on car interior light */
             Led_TurnOn(APP_INTERIOR_LIGHT_ARGS);
 
@@ -477,18 +498,17 @@ static void app_switch_state(en_app_state_t en_a_app_state)
                 Led_TurnOff(APP_CAR_FRONT_RIGHT_LIGHT_ARGS);
             }
 
-            /*show title*/
-            lcd_send_string(APP_STR_TITLE);
+            SHOW_TITLE_CENTERED_ON_LCD();
 
             /* lcd shows the options int the main */
             lcd_set_cursor(LCD_LINE1, LCD_COL0);
-            lcd_send_string("1-MAIN");
+            lcd_send_string(APP_STR_OPT_DASHBOARD);
 
             lcd_set_cursor(LCD_LINE2, LCD_COL0);
-            lcd_send_string("2-SPEEDLIMIT(ON/OFF)");
+            lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_OFF);
 
             lcd_set_cursor(LCD_LINE3, LCD_COL0);
-            lcd_send_string("3-SET LIMIT");
+            lcd_send_string(APP_STR_OPT_SET_SPEED_LIMIT);
 
             /* Update global app en_a_app_state flag */
             en_gs_app_state = APP_STATE_SHOW_OPTIONS;
@@ -548,50 +568,31 @@ static void app_switch_state(en_app_state_t en_a_app_state)
                 break;
 
             }
-            case APP_STATE_SPEED_LIMIT_ON_OFF:
-            {
-                /*clear lcd*/
-                lcd_clear();
-                if(Speed_limit_f == SPEED_LIMIT_OFF)
-                {
-                    /*INFORM THAT SPEED LIMIT IS OFF*/
-                    lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                    lcd_send_string("Speed limit off");
-                    delay_ms(300);
-                    /*return back to the options menu */
-                }
-                else if(Speed_limit_f == SPEED_LIMIT_ON)
-                {
 
-                    /*INFORM THAT SPEED LIMIT IS ON*/
-                    lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                    lcd_send_string("Speed limit on");
-                    delay_ms(300);
-                }
-                en_gs_app_state= APP_STATE_SPEED_LIMIT_ON_OFF;
-                break;
-            }
-            case APP_STATE_SET_LIMIT :
+            case APP_STATE_SET_LIMIT:
             {
-                /* clear lcd */
+                /* Clear LCD */
                 lcd_clear();
 
-                /* Show Title */
-                lcd_send_string(APP_STR_TITLE);
+                SHOW_TITLE_CENTERED_ON_LCD();
 
                 /* Set LCD Cursor position */
-                lcd_set_cursor(LCD_LINE2,LCD_COL7);
-                lcd_send_string("Enter speed limit : ");
+                lcd_set_cursor(LCD_LINE2,LCD_COL0);
+                lcd_send_string(APP_STR_ENTER_SPD_LIMIT);
+
+                lcd_set_cursor(LCD_LINE3,LCD_COL8);
+                lcd_send_string(APP_STR_SPD_LIMIT_PLACEHOLDER);
+
+                /* reset cursor to overwrite placeholder str with user input */
+                lcd_set_cursor(LCD_LINE3,LCD_COL8);
 
                 /* reset index flag */
-                uint8_gs_set_speed_index=3;
-
-                /* Update the global en_a_app_state to set limit */
-                en_gs_app_state = APP_STATE_SET_LIMIT;
+                uint8_gs_set_speed_index = 3;
                 break;
             }
         }
 
+    /* Update global app state flag */
     en_gs_app_state = en_a_app_state;
 }
 

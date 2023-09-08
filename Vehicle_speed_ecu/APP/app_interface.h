@@ -15,10 +15,9 @@ typedef enum
     APP_STATE_INIT_UI   =   0   ,
     APP_CAR_OFF                 ,
     APP_CAR_READY               ,
-//    APP_CAR_ON                  ,
+/*    APP_CAR_ON                  ,*/
     APP_STATE_SHOW_OPTIONS      ,
     APP_STATE_MAIN              ,
-    APP_STATE_SPEED_LIMIT_ON_OFF,
     APP_STATE_SET_LIMIT         ,
     APP_STATE_GET_LIMIT         ,
     APP_STATE_TOTAL
