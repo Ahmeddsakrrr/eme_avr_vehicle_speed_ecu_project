@@ -1,14 +1,17 @@
-cmake_minimum_required(VERSION 3.26)
-project(Vehicle_speed_ecu C)
+cmake_minimum_required(VERSION 3.25)
+project(eme_avr_vehicle_speed_ecu_project C)
 
 set(CMAKE_C_STANDARD 11)
 
-include_directories(.)
 include_directories(comm_ecu/APP)
+include_directories(comm_ecu/HAL/eeprom)
+include_directories(comm_ecu/MCAL/gpio)
+include_directories(comm_ecu/MCAL/i2c)
+include_directories(comm_ecu/MCAL/spi)
 include_directories(common_drivers/COMMON)
 include_directories(common_drivers/COMMON/timer)
-include_directories(common_drivers/MCAL/spi)
 include_directories(common_drivers/MCAL/gpio)
+include_directories(common_drivers/MCAL/spi)
 include_directories(Vehicle_speed_ecu/APP)
 include_directories(Vehicle_speed_ecu/HAL/buzz)
 include_directories(Vehicle_speed_ecu/HAL/kl15)
@@ -16,16 +19,32 @@ include_directories(Vehicle_speed_ecu/HAL/kpd)
 include_directories(Vehicle_speed_ecu/HAL/lcd)
 include_directories(Vehicle_speed_ecu/HAL/ldr)
 include_directories(Vehicle_speed_ecu/HAL/led)
+include_directories(Vehicle_speed_ecu/HAL/throttle)
 include_directories(Vehicle_speed_ecu/MCAL/adc)
 include_directories(Vehicle_speed_ecu/MCAL/gpio)
-include_directories(Vehicle_speed_ecu/HAL/throttle/)
+include_directories(Vehicle_speed_ecu/MCAL/i2c)
+include_directories(Vehicle_speed_ecu/MCAL/timer)
 
-
-add_executable(Vehicle_speed_ecu
+add_executable(eme_avr_vehicle_speed_ecu_project
         comm_ecu/APP/app_config.h
         comm_ecu/APP/app_interface.h
         comm_ecu/APP/app_private.h
         comm_ecu/APP/app_program.c
+        comm_ecu/HAL/eeprom/eeprom.c
+        comm_ecu/HAL/eeprom/eeprom.h
+        comm_ecu/HAL/eeprom/eeprom_Cfg.h
+        comm_ecu/MCAL/gpio/gpio_interface.h
+        comm_ecu/MCAL/gpio/gpio_private.h
+        comm_ecu/MCAL/gpio/gpio_program.c
+        comm_ecu/MCAL/i2c/i2c.c
+        comm_ecu/MCAL/i2c/i2c_config.h
+        comm_ecu/MCAL/i2c/i2c_private.h
+        comm_ecu/MCAL/spi/spi_config.h
+        comm_ecu/MCAL/spi/spi_interface.h
+        comm_ecu/MCAL/spi/spi_private.h
+        comm_ecu/MCAL/spi/spi_program.c
+        comm_ecu/main.c
+        common_drivers/COMMON/timer/timer.c
         common_drivers/COMMON/timer/timer_interface.h
         common_drivers/COMMON/timer/timer_program.c
         common_drivers/COMMON/timer/Timers_Services.c
@@ -34,6 +53,9 @@ add_executable(Vehicle_speed_ecu
         common_drivers/COMMON/interrupts.h
         common_drivers/COMMON/mem_map.h
         common_drivers/COMMON/std.h
+        common_drivers/MCAL/gpio/gpio_interface.h
+        common_drivers/MCAL/gpio/gpio_private.h
+        common_drivers/MCAL/gpio/gpio_program.c
         common_drivers/MCAL/spi/spi_config.h
         common_drivers/MCAL/spi/spi_interface.h
         common_drivers/MCAL/spi/spi_private.h
@@ -58,18 +80,21 @@ add_executable(Vehicle_speed_ecu
         Vehicle_speed_ecu/HAL/led/Led.c
         Vehicle_speed_ecu/HAL/led/Led.h
         Vehicle_speed_ecu/HAL/led/Led_Cfg.h
+        Vehicle_speed_ecu/HAL/throttle/throttle.c
+        Vehicle_speed_ecu/HAL/throttle/throttle.h
         Vehicle_speed_ecu/MCAL/adc/adc_config.h
         Vehicle_speed_ecu/MCAL/adc/adc_interface.h
         Vehicle_speed_ecu/MCAL/adc/adc_lconfig.c
         Vehicle_speed_ecu/MCAL/adc/adc_private.h
         Vehicle_speed_ecu/MCAL/adc/adc_program.c
-        common_drivers/MCAL/gpio/gpio_program.c
-        common_drivers/MCAL/gpio/gpio_interface.h
-        common_drivers/MCAL/gpio/gpio_private.h
-        Vehicle_speed_ecu/main.c
+        Vehicle_speed_ecu/MCAL/gpio/gpio_interface.h
+        Vehicle_speed_ecu/MCAL/gpio/gpio_private.h
+        Vehicle_speed_ecu/MCAL/gpio/gpio_program.c
+        Vehicle_speed_ecu/MCAL/i2c/i2c.c
+        Vehicle_speed_ecu/MCAL/i2c/i2c_config.h
         Vehicle_speed_ecu/MCAL/i2c/i2c_private.h
-        Vehicle_speed_ecu/HAL/throttle/throttle.c
-        Vehicle_speed_ecu/HAL/throttle/throttle.h
+        Vehicle_speed_ecu/MCAL/timer/timer_interface.h
+        Vehicle_speed_ecu/MCAL/timer/timer_program.c
+        Vehicle_speed_ecu/MCAL/timer/Timers_Services.c
         Vehicle_speed_ecu/MCAL/timer/Timers_Services.h
-
-)
+        Vehicle_speed_ecu/main.c)

@@ -2,7 +2,7 @@
  * app_interface.h
  *
  * Created: 9/3/2023 11:54:20 AM
- *  Author: hacke
+ *  Author: GUCALEX Team
  */ 
 
 

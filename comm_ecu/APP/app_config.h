@@ -2,7 +2,7 @@
  * app_config.h
  *
  * Created: 9/3/2023 11:54:54 AM
- *  Author: hacke
+ *  Author: GUCALEX Team
  */ 
 
 

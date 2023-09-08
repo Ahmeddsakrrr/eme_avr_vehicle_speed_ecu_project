@@ -1,11 +1,14 @@
+/*
+ * app_program.c
+ *
+ * Created: 9/3/2023 11:54:45 AM
+ *  Author: GUCALEX Team
+ */
 
-
+/* App Includes */
 #include "app_interface.h"
 #include "app_config.h"
 #include "app_private.h"
-
-
-
 
 uint8_t_ uint8_g_recived_data=0 ;
 uint8_t_  uint8_g_send_limit_speed=0;
@@ -19,6 +22,7 @@ void app_init()
 {
 	/* Init SPI */
 	spi_init();
+
 	/* Init EEPROM */
 	Eeprom_Init();
 }
@@ -36,7 +40,7 @@ void app_start()
 		
 		
 		/* check whether the data is valid ,
-		if its valid transmit ACK=1 ,if its not transmit NO_ACK=0 */
+		if its valid transmit ACK=1 ,if it's not transmit NO_ACK=0 */
 		
 		if(uint8_g_recived_data==START)
 		{

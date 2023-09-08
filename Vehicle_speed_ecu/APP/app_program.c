@@ -5,27 +5,27 @@
  *  Author: GUCALEX Team
  */
 
+/* App includes */
 #include "app_interface.h"
 #include "app_config.h"
 #include "app_private.h"
-#include "lcd_interface.h"
-#include "throttle.h"
-
 #include "Timers_Services.h"
 
+/* App functions prototypes */
 static void app_switch_state(en_app_state_t state);
-/*App state */
+
+/* App state */
 static  en_app_state_t  en_gs_app_state   =                  APP_STATE_INIT_UI ;
 static  en_app_sub_state_t  en_gs_app_sub_state   =          APP_SUB_STATE_P ;
-static  en_app_state_t  en_gs_next_app_state =               APP_STATE_INIT_UI ;
+/* static  en_app_state_t  en_gs_next_app_state =               APP_STATE_INIT_UI ; */
 
-/*APP GLOBAL VARIABLES*/
-
+/* App global variables */
 uint8_t_ uint8_g_readings;
 uint8_t_ uint8_Gear_mode =                         KPD_CAR_MODE_P;
 uint8_t_ Speed_limit_f   =                           SPEED_LIMIT_OFF;
 uint8_t_ uint8_kpd_value;
 uint32_t_ uint16_throttle_g_readings;
+
 void app_init(void)
 {
     /* Init LCD */
@@ -71,7 +71,6 @@ void app_start(void)
                 /*if btn is pressed*/
                 if(KPD_MAIN == uint8_kpd_value)
                 {
-//                    en_gs_next_app_state=APP_STATE_MAIN;
                     app_switch_state(APP_STATE_MAIN);
 
                 }
@@ -164,26 +163,31 @@ void app_start(void)
                     }
 
 
-                    else if(uint16_throttle_g_readings>40 && uint16_throttle_g_readings<=60){
+                    else if(uint16_throttle_g_readings>40 && uint16_throttle_g_readings<=60)
+                    {
                         LCD_printNumber(3,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(0,LCD_LINE2,LCD_COL10);
                         LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL11);
                     }
-                    else if(uint16_throttle_g_readings>60 && uint16_throttle_g_readings<=80){
+                    else if(uint16_throttle_g_readings>60 && uint16_throttle_g_readings<=80)
+                    {
                         LCD_printNumber(4,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(0,LCD_LINE2,LCD_COL10);
                         LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL11);
                     }
-                    else if(uint16_throttle_g_readings>80 && uint16_throttle_g_readings<=100){
+                    else if(uint16_throttle_g_readings>80 && uint16_throttle_g_readings<=100)
+                    {
                         LCD_printNumber(5,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL10);
                     }
-                    else if(uint16_throttle_g_readings>100 && uint16_throttle_g_readings<=150){
+                    else if(uint16_throttle_g_readings>100 && uint16_throttle_g_readings<=150)
+                    {
 
                         LCD_printNumber(6,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL10);
                     }
-                    else {
+                    else
+                    {
                         LCD_printNumber(7,LCD_LINE1,LCD_COL10);
                         LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL10);
                     }
@@ -209,6 +213,13 @@ void app_start(void)
             }
             case APP_STATE_SET_LIMIT:
             {
+                if(NULL != uint8_kpd_value){
+
+                }
+                else
+                {
+                    /* Do Nothing, no key is pressed */
+                }
                 break;
             }
             case APP_STATE_SHOW_CAR_STATE:
