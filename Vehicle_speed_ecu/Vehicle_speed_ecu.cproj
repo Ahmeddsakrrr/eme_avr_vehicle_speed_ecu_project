@@ -241,6 +241,18 @@
     <Compile Include="MCAL\gpio\gpio_program.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MCAL\spi\spi_config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\spi\spi_interface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\spi\spi_private.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\spi\spi_program.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="MCAL\timer\Timers_Services.c">
       <SubType>compile</SubType>
     </Compile>
@@ -267,8 +279,8 @@
     <Folder Include="APP" />
     <Folder Include="MCAL\adc" />
     <Folder Include="MCAL\gpio" />
-    <Folder Include="MCAL\timer" />
     <Folder Include="MCAL\spi" />
+    <Folder Include="MCAL\timer" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

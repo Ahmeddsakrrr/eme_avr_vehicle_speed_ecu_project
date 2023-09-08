@@ -97,4 +97,5 @@ add_executable(eme_avr_vehicle_speed_ecu_project
         Vehicle_speed_ecu/MCAL/timer/timer_program.c
         Vehicle_speed_ecu/MCAL/timer/Timers_Services.c
         Vehicle_speed_ecu/MCAL/timer/Timers_Services.h
-        Vehicle_speed_ecu/main.c)
+        Vehicle_speed_ecu/main.c
+        Vehicle_speed_ecu/MCAL/spi/spi_program.c)
