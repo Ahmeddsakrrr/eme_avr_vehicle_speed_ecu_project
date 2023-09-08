@@ -19,6 +19,7 @@
 #include "Led.h"
 #include "ldr_interface.h"
 #include "throttle.h"
+#include "spi_config.h"
 
 /* Include COMMON */
 #include "std.h"

@@ -11,7 +11,11 @@
 #include "app_private.h"
 #include "Timers_Services.h"
 
+uint8_t_ uint8_g_recived_data=0 ;
+
 /* App functions prototypes */
+static void send_limit_speed(uint8_t_ uint8_a_speed );
+static void receive_limit_speed();
 static void app_switch_state(en_app_state_t state);
 
 /* App state */
@@ -41,6 +45,10 @@ void app_init(void)
 
     /* Init LCD */
     lcd_init();
+	
+	/* Init TIMRT2 */
+	
+	timer2_init(TIMER2_CTC_MODE);
 
 
 }
@@ -385,3 +393,66 @@ static void app_switch_state(en_app_state_t state){
     }
 
 
+}
+
+
+
+
+
+
+static void send_limit_speed(uint8_t_ uint8_a_speed )
+{
+	uint8_g_recived_data=spi_transceiver(START );
+	
+	while(uint8_g_recived_data!=ACK)
+	{
+		delay_us(5);
+		uint8_g_recived_data=spi_transceiver(START);
+	}
+	
+	
+	uint8_g_recived_data=spi_transceiver(SEND_LIMIT_SPEED);
+	while(uint8_g_recived_data!=ACK)
+	{
+		delay_us(5);
+		uint8_g_recived_data=spi_transceiver(SEND_LIMIT_SPEED);
+		
+	}
+	
+	uint8_g_recived_data=spi_transceiver(uint8_a_speed);
+	while(uint8_g_recived_data!=ACK)
+	{
+		delay_us(5);
+		uint8_g_recived_data=spi_transceiver(uint8_a_speed);
+	}
+}
+
+
+
+static void receive_limit_speed()
+{
+	uint8_g_recived_data=spi_transceiver(START );
+	while(uint8_g_recived_data!=ACK)
+	{
+		delay_us(5);
+		uint8_g_recived_data=spi_transceiver(START );
+	}
+	
+	uint8_g_recived_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+	
+	while(uint8_g_recived_data!=ACK)
+	{
+		delay_us(5);
+		uint8_g_recived_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+	}
+	delay_us(150);
+	uint8_g_recived_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+	
+	while(((uint8_g_recived_data<30) || uint8_g_recived_data>220))
+	{
+		delay_us(5);
+		uint8_g_recived_data=spi_transceiver(RECIVED_LIMIT_SPEED);
+		
+		
+	}
+}
