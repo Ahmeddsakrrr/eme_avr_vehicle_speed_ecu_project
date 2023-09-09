@@ -22,8 +22,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ea535dc1-6b77-4c4f-b196-98bf70f2e9ee" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Vehicle_speed_ecu/APP/app_program.c" beforeDir="false" afterPath="$PROJECT_DIR$/Vehicle_speed_ecu/APP/app_program.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vehicle_speed_ecu.atsln" beforeDir="false" afterPath="$PROJECT_DIR$/Vehicle_speed_ecu.atsln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/comm_ecu/APP/app_private.h" beforeDir="false" afterPath="$PROJECT_DIR$/comm_ecu/APP/app_private.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/comm_ecu/APP/app_program.c" beforeDir="false" afterPath="$PROJECT_DIR$/comm_ecu/APP/app_program.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/comm_ecu/comm_ecu.cproj" beforeDir="false" afterPath="$PROJECT_DIR$/comm_ecu/comm_ecu.cproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,12 +78,12 @@
     <configuration name="Vehicle_speed_ecu" type="CMakeListConfigurationType" factoryName="CMakeListConfigurationFactory" temporary="true">
       <method v="2" />
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="eme_avr_vehicle_speed_ecu_project" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="eme_avr_vehicle_speed_ecu_project" TARGET_NAME="eme_avr_vehicle_speed_ecu_project" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="eme_avr_vehicle_speed_ecu_project" RUN_TARGET_NAME="eme_avr_vehicle_speed_ecu_project">
+    <configuration name="eme_avr_vehicle_speed_ecu_project" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="eme_avr_vehicle_speed_ecu_project" TARGET_NAME="eme_avr_vehicle_speed_ecu_project" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="eme_avr_vehicle_speed_ecu_project" RUN_TARGET_NAME="eme_avr_vehicle_speed_ecu_project">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>

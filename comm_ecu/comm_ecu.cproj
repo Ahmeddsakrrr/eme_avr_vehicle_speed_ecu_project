@@ -119,6 +119,7 @@
       <Value>../HAL/eeprom</Value>
       <Value>../MCAL/i2c</Value>
       <Value>../../common_drivers/MCAL/gpio</Value>
+      <Value>../HAL/lcd</Value>
     </ListValues>
   </avrgcc.compiler.directories.IncludePaths>
   <avrgcc.compiler.optimization.level>Optimize debugging experience (-Og)</avrgcc.compiler.optimization.level>
@@ -162,6 +163,18 @@
     <Compile Include="HAL\eeprom\eeprom_Cfg.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="HAL\lcd\lcd_config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HAL\lcd\lcd_interface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HAL\lcd\lcd_private.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HAL\lcd\lcd_program.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
@@ -195,14 +208,28 @@
     <Compile Include="MCAL\spi\spi_program.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MCAL\timer\Timers_Services.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\timer\Timers_Services.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\timer\timer_interface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\timer\timer_program.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HAL\eeprom" />
+    <Folder Include="HAL\lcd" />
     <Folder Include="MCAL" />
     <Folder Include="HAL" />
     <Folder Include="APP" />
     <Folder Include="MCAL\i2c" />
     <Folder Include="MCAL\gpio" />
+    <Folder Include="MCAL\timer" />
     <Folder Include="MCAL\spi" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />

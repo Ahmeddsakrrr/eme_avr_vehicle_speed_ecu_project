@@ -9,14 +9,6 @@ Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "comm_ecu", "comm_ecu\comm_e
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common_drivers", "Common_drivers", "{C1A62AB0-67C6-4D02-8049-EE033D9C7EFC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "timer", "timer", "{C41FA5A2-951E-45B2-9F5D-CAC6DEC081B9}"
-	ProjectSection(SolutionItems) = preProject
-		common_drivers\COMMON\timer\timer_interface.h = common_drivers\COMMON\timer\timer_interface.h
-		common_drivers\COMMON\timer\timer_program.c = common_drivers\COMMON\timer\timer_program.c
-		common_drivers\COMMON\timer\Timers_Services.c = common_drivers\COMMON\timer\Timers_Services.c
-		common_drivers\COMMON\timer\Timers_Services.h = common_drivers\COMMON\timer\Timers_Services.h
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MCAL", "MCAL", "{7B4D5374-7D51-4EB2-9E0A-54D2842F0AB0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "COMMON", "COMMON", "{EE09287F-724D-479D-8882-3C6871ECCC33}"
@@ -32,6 +24,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gpio", "gpio", "{7621DC4D-7
 		common_drivers\MCAL\gpio\gpio_interface.h = common_drivers\MCAL\gpio\gpio_interface.h
 		common_drivers\MCAL\gpio\gpio_private.h = common_drivers\MCAL\gpio\gpio_private.h
 		common_drivers\MCAL\gpio\gpio_program.c = common_drivers\MCAL\gpio\gpio_program.c
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "spi", "spi", "{AD017F89-DE86-47BF-9AB4-5A876C031657}"
+	ProjectSection(SolutionItems) = preProject
+		Vehicle_speed_ecu\MCAL\spi\spi_config.h = Vehicle_speed_ecu\MCAL\spi\spi_config.h
+		Vehicle_speed_ecu\MCAL\spi\spi_interface.h = Vehicle_speed_ecu\MCAL\spi\spi_interface.h
+		Vehicle_speed_ecu\MCAL\spi\spi_private.h = Vehicle_speed_ecu\MCAL\spi\spi_private.h
+		Vehicle_speed_ecu\MCAL\spi\spi_program.c = Vehicle_speed_ecu\MCAL\spi\spi_program.c
 	EndProjectSection
 EndProject
 Global
@@ -53,9 +53,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C41FA5A2-951E-45B2-9F5D-CAC6DEC081B9} = {EE09287F-724D-479D-8882-3C6871ECCC33}
 		{7B4D5374-7D51-4EB2-9E0A-54D2842F0AB0} = {C1A62AB0-67C6-4D02-8049-EE033D9C7EFC}
 		{EE09287F-724D-479D-8882-3C6871ECCC33} = {C1A62AB0-67C6-4D02-8049-EE033D9C7EFC}
 		{7621DC4D-73E1-4A56-AB82-5395406D2070} = {7B4D5374-7D51-4EB2-9E0A-54D2842F0AB0}
+		{AD017F89-DE86-47BF-9AB4-5A876C031657} = {7B4D5374-7D51-4EB2-9E0A-54D2842F0AB0}
 	EndGlobalSection
 EndGlobal

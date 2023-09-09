@@ -15,6 +15,7 @@
 
 /* HAL Includes */
 #include "eeprom.h"
+#include "lcd_interface.h"
 
 /* COMMON Includes */
 #include "spi_interface.h"
