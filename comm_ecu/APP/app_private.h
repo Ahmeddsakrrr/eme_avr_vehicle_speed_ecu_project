@@ -12,7 +12,7 @@
 /* Includes */
 
 /* Includes */
-
+#include "Led.h"
 /* HAL Includes */
 #include "eeprom.h"
 
@@ -26,8 +26,8 @@
 #define   APP_COMM_CMD_NO_ACK   0
 
 #define   APP_COMM_CMD_START                 5
-#define   APP_COMM_CMD_REQUESTING_SPD_LIMIT  10
-#define   APP_COMM_CMD_SENDING_SPD_LIMIT     15
+#define   APP_COMM_CMD_REQUESTING_SPEED_LIMIT  10
+#define   APP_COMM_CMD_SENDING_SPDEED_LIMIT     15
 
 
 /* Memory Addresses */

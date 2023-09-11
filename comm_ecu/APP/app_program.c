@@ -11,27 +11,32 @@
 #include "app_private.h"
 
 uint8_t_ uint8_g_received_data=0 ;
-uint8_t_  uint8_g_send_limit_speed=0;
+  uint8_t_  uint8_g_send_limit_speed=0;
 uint8_t_  uint8_g_check_data=0;
 
 static void   receive_limit_speed();
 static void  send_limit_speed();
 
 
+#include <util/delay.h>
+
 void app_init()
 {
+	Led_Init(LED_BLUE_PORT, LED_BLUE_PIN );
+	Led_Init(LED_YELLOW_PORT, LED_YELLOW_PIN);
 	/* Init SPI */
 	spi_init();
 
 	/* Init EEPROM */
 	Eeprom_Init();
+
 }
 
 
 
 void app_start()
 {
-
+  
 	while(TRUE)
 	{
 		/* start spi communication */
@@ -45,25 +50,27 @@ void app_start()
 		if(uint8_g_received_data == APP_COMM_CMD_START)
 		{
 			uint8_g_received_data=spi_transceiver(APP_COMM_CMD_ACK);
+          
 			uint8_g_received_data=spi_transceiver(APP_COMM_CMD_NO_ACK);
-			
+		   
 			/* check the received data wants information about limited speed or  ,
 			wants to send the limited speed  */
 			while(uint8_g_check_data==0){
 				switch(uint8_g_received_data)
 				{
 					
-					case APP_COMM_CMD_REQUESTING_SPD_LIMIT:
+					case APP_COMM_CMD_REQUESTING_SPEED_LIMIT:
 					
 					receive_limit_speed();
 					break;
 					
-					case APP_COMM_CMD_SENDING_SPD_LIMIT:
-					send_limit_speed();
-									break;
+					case APP_COMM_CMD_SENDING_SPDEED_LIMIT:
+					    send_limit_speed();
+                        break;
 					default:
-					uint8_g_received_data=spi_transceiver(APP_COMM_CMD_NO_ACK);
-					break;
+					    uint8_g_received_data=spi_transceiver(APP_COMM_CMD_NO_ACK);
+                
+                        break;
 				}
 			}
 		}
@@ -84,20 +91,38 @@ void app_start()
 static void receive_limit_speed()
 {
 	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_ACK);
+    
 	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_NO_ACK);
-	
+    
 	while((uint8_g_received_data < APP_CAR_SPD_LIMIT_MIN_SPEED ) || (uint8_g_received_data > APP_CAR_MAX_SPEED))
 	{
 		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_NO_ACK);
+        
 		
 		
 	}
 	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_ACK);
-	
+    
 	Eeprom_WriteByte(EEPROM_SPD_ADDRESS, uint8_g_received_data);
+	
+	
+	
+	/* function test
+	if(uint8_g_received_data==120)
+	{
+		Led_TurnOn(LED_BLUE_PORT, LED_BLUE_PIN );
+		Led_TurnOn(LED_YELLOW_PORT, LED_YELLOW_PIN);
+		_delay_ms(500);
+		Led_TurnOff(LED_BLUE_PORT, LED_BLUE_PIN );
+		Led_TurnOff(LED_YELLOW_PORT, LED_YELLOW_PIN);
+		_delay_ms(500);
+		Led_TurnOn(LED_BLUE_PORT, LED_BLUE_PIN );
+		Led_TurnOn(LED_YELLOW_PORT, LED_YELLOW_PIN);
+	}
+	*/
+	
 	uint8_g_check_data=1;
 }
-
 
 
 
@@ -106,12 +131,14 @@ static void send_limit_speed()
 {
 	
 	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_ACK);
+   
 	/* retrieve the saved speed from EEPROM*/
 	
 	Eeprom_ReadByte(EEPROM_SPD_ADDRESS, & uint8_g_send_limit_speed);
 	
 	/* send the limited speed*/
 	uint8_g_received_data=spi_transceiver( uint8_g_send_limit_speed);
+ 
 	uint8_g_check_data=1;
 }
 

@@ -19,8 +19,8 @@ static void app_key_changed(en_read_states_t en_l_kl_state);
 static void app_timer_tick_event(void);
 
 /* App state */
-static  en_app_state_t  en_gs_app_state   =                  APP_STATE_INIT_UI  ;
-static  en_app_sub_state_t  en_gs_app_sub_state   =          APP_SUB_STATE_P    ;
+static  en_app_state_t		en_gs_app_state		=	APP_STATE_INIT_UI  ;
+static  en_app_sub_state_t  en_gs_app_sub_state	=   APP_SUB_STATE_P    ;
 
 /* Booleans/Flags */
 static boolean  bool_gs_is_night    = FALSE;
@@ -31,16 +31,16 @@ static boolean  bool_gs_speed_limit_enabled = FALSE;
 
 /* App global variables */
 static uint8_t_     uint8_g_received_data       =   ZERO                ;
-static uint8_t_     uint8_g_readings                                    ;
-static uint8_t_     uint8_Gear_mode             =   KPD_CAR_MODE_P      ;
 static uint8_t_     uint8_g_kpd_value           =   NULL                ;
 static uint32_t_    uint16_throttle_g_readings                          ;
 static uint8_t_     uint8_gs_seconds_elapsed    =   ZERO                ;
 static uint8_t_     uint8_gs_set_speed_index    =   3                   ;
 static uint8_t_     uint8_g_speed_limit         =   APP_CAR_MAX_SPEED   ;
-uint8_t_ uint8_g_limited_speed   =ZERO;
+static uint8_t_		uint8_g_limited_speed		=	ZERO;
+
 void app_init(void)
 {
+	spi_init();
     /* Init LCD */
     lcd_init();
 
@@ -73,16 +73,22 @@ void app_init(void)
 
 	/* Init TIMER 2 */
 	timer2_init(TIMER2_CTC_MODE);
+	
 
 }
 void app_start(void)
 {
+	/* Declare local variables */
+	en_eeprom_status_data_t en_l_eeprom_status_data;
+
+	/* Init local variables */
+	en_l_eeprom_status_data = EMPTY;
+
     /* Switch app to initial state - CAR OFF */
     app_switch_state(APP_STATE_INIT_UI);
 
     /* local variables */
     en_read_states_t en_l_kl_state;
-    static uint8_t_  uint8_l_speed_limit_btn = ZERO;
 
     /*get keypad current value*/
     uint8_g_kpd_value = keypad_read();
@@ -197,12 +203,22 @@ void app_start(void)
                     }
                     else if(TRUE == bool_gs_speed_limit_enabled)
                     {
-                        /* INFORM THAT SPEED LIMIT IS ON */
-                        lcd_set_cursor(LCD_LINE3,LCD_COL0);
-                        lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_ON);
-                        APP_BUZZ(APP_NOTIFY_BUZZ_DURATION_MS);
-
-                        /* todo retrieve limit from eeprom, if no data request user to input limit first */
+						/* todo retrieve limit from eeprom, if no data request user to input limit first */
+						en_l_eeprom_status_data = receive_limit_speed();
+						
+						if(EMPTY == en_l_eeprom_status_data)
+						{
+							/* Request set limit first from user */
+							app_switch_state(APP_STATE_SET_LIMIT);
+						}
+						else
+						{
+							/* INFORM THAT SPEED LIMIT IS ON */
+							lcd_set_cursor(LCD_LINE3,LCD_COL0);
+							lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_ON);
+							APP_BUZZ(APP_NOTIFY_BUZZ_DURATION_MS);
+						}
+                        
                     }
                 }
                 else
@@ -409,6 +425,7 @@ void app_start(void)
                             lcd_set_cursor(LCD_LINE2, LCD_COL2);
                             lcd_send_string(APP_STR_SAVING_LIMIT);
                             send_limit_speed(uint8_g_speed_limit);
+							
                         }
                         else
                         {
@@ -518,14 +535,14 @@ static void app_switch_state(en_app_state_t en_a_app_state)
             {
                 lcd_clear();
                 lcd_set_cursor(LCD_LINE0,LCD_COL0);
-                lcd_send_string(" P R N D");
+                /*lcd_send_string(" P R N D");*/
                 if(en_gs_app_sub_state==APP_SUB_STATE_P){
                     lcd_clear();
                     lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                    lcd_send_string("1-GEAR : P");
+                    lcd_send_string(APP_STR_L1_DASHBOARD_GEAR_P);
 
                     lcd_set_cursor(LCD_LINE2,LCD_COL0);
-                    lcd_send_string("2-SPEED : ");
+                    lcd_send_string(APP_STR_L2_DASHBOARD_SPEED);
                     LCD_printNumber(0,LCD_LINE2,LCD_COL10);
                     /*PARK MODE INDICATION*/
 
@@ -535,10 +552,10 @@ static void app_switch_state(en_app_state_t en_a_app_state)
 
                 else if(en_gs_app_sub_state == APP_SUB_STATE_N){
                     lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                    lcd_send_string("1-GEAR : N");
+                    lcd_send_string(APP_STR_L1_DASHBOARD_GEAR_N);
 
                     lcd_set_cursor(LCD_LINE2,LCD_COL0);
-                    lcd_send_string("2-SPEED:");
+                    lcd_send_string(APP_STR_L2_DASHBOARD_SPEED);
                     //lcd_print_number(uint16_g_last_reading[ADC_CH_0],LCD_LINE1,LCD_COL10);
                     en_gs_app_state = APP_STATE_MAIN;
                     break;
@@ -546,10 +563,10 @@ static void app_switch_state(en_app_state_t en_a_app_state)
 
                 else if(en_gs_app_sub_state == APP_SUB_STATE_R){
                     lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                    lcd_send_string("1-GEAR : R");
+                    lcd_send_string(APP_STR_L1_DASHBOARD_GEAR_R);
 
                     lcd_set_cursor(LCD_LINE2,LCD_COL0);
-                    lcd_send_string("2-SPEED : ");
+                    lcd_send_string(APP_STR_L2_DASHBOARD_SPEED);
 
                     en_gs_app_state = APP_STATE_MAIN;
                     break;
@@ -557,10 +574,10 @@ static void app_switch_state(en_app_state_t en_a_app_state)
 
                 else if(en_gs_app_sub_state == APP_SUB_STATE_D){
                     lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                    lcd_send_string("1-GEAR : D");
+                    lcd_send_string(APP_STR_L1_DASHBOARD_GEAR_D);
 
                     lcd_set_cursor(LCD_LINE2,LCD_COL0);
-                    lcd_send_string("2-SPEED : ");
+                    lcd_send_string(APP_STR_L2_DASHBOARD_SPEED);
 
                     en_gs_app_state = APP_STATE_MAIN;
                     break;
@@ -590,6 +607,19 @@ static void app_switch_state(en_app_state_t en_a_app_state)
                 uint8_gs_set_speed_index = 3;
                 break;
             }
+			case APP_STATE_GET_LIMIT:
+			{
+				/* get speed limit from 2nd ECU */
+				/* todo */
+				break;
+			}
+			case APP_STATE_TOTAL:
+			default:
+			{
+				/* handle undefined behavior */
+				app_switch_state(APP_STATE_INIT_UI);
+				break;
+			}
         }
 
     /* Update global app state flag */
@@ -649,6 +679,12 @@ static void app_key_changed(en_read_states_t en_l_kl_state)
             bool_car_sleep_mode = FALSE;
             break;
         }
+		case SKIP:
+		default:
+		{
+			/* Do Nothing */
+			break;
+		}
     }
 }
 
@@ -686,12 +722,22 @@ static void send_limit_speed(uint8_t_ uint8_a_speed )
 		
 	}
 	/* transmit the limited speed , keep sending until a ACK =1 is received*/
+	
+	
+	
 	uint8_g_received_data=spi_transceiver(uint8_a_speed);
 	while(uint8_g_received_data != APP_COMM_CMD_ACK)
 	{
 		delay_us(5);
 		uint8_g_received_data=spi_transceiver(uint8_a_speed);
 	}
+	
+	
+	/* function test
+	Led_TurnOn(LED_BLUE_PORT,LED_BLUE_PIN);
+	delay_ms(500);
+	Led_TurnOff(LED_BLUE_PORT,LED_BLUE_PIN);
+	*/
 }
 
 

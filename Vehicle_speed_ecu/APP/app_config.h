@@ -38,6 +38,12 @@
 #define APP_STR_OPT_SPEED_LIMIT_SW_ON   ((uint8_t_ *)"(3) Limit  ON")
 #define APP_STR_OPT_SET_SPEED_LIMIT     ((uint8_t_ *)"(2) Set Speed Limit")
 #define APP_STR_ERROR                   ((uint8_t_ *)"Error")
+#define APP_STR_L1_DASHBOARD_GEAR_P		((uint8_t_ *)"GEAR: P")
+#define APP_STR_L1_DASHBOARD_GEAR_N		((uint8_t_ *)"GEAR: N")
+#define APP_STR_L1_DASHBOARD_GEAR_R		((uint8_t_ *)"GEAR: R")
+#define APP_STR_L1_DASHBOARD_GEAR_D		((uint8_t_ *)"GEAR: D")
+#define APP_STR_L2_DASHBOARD_SPEED		((uint8_t_ *)"SPEED:   ")
+
 
 #define KPD_MAIN                '1'
 #define KPD_SET_LIMIT           '2'
