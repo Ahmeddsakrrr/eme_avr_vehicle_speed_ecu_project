@@ -36,122 +36,130 @@ en_adc_status_t adc_init(void)
         /* Fetch ADC configuration item */
         st_l_adc_config = st_g_adc_config_arr[i];
 
-        if(
-                /* valid channel */
-                (st_l_adc_config.en_adc_channel < ADC_CH_TOTAL) &&
-
-                /* valid pre-scaler */
-                ((ADC_CPU_FREQ_HZ / st_l_adc_config.en_adc_prescaler) < ADC_MAX_FREQ_HZ))
+        if(ADC_MODE_OFF != st_l_adc_config.en_adc_mode)
         {
-            /* init ADC channel pin as input */
-            GPIO_setupPinDirection(ADC_PORT, st_l_adc_config.en_adc_channel, PIN_INPUT);
+            if(
+                /* valid channel */
+                    (st_l_adc_config.en_adc_channel < ADC_CH_TOTAL) &&
 
-            /* SETUP PRESCALER */
-            switch (st_l_adc_config.en_adc_prescaler) {
-
-                case ADC_PS_BY_2:
-                {
-                    CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
-                    CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
-                    CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
-                    break;
-                }
-                case ADC_PS_BY_4:
-                {
-                    CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
-                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
-                    CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
-                    break;
-                }
-                case ADC_PS_BY_8:
-                {
-                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
-                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
-                    CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
-                    break;
-                }
-                case ADC_PS_BY_16:
-                {
-                    CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
-                    CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
-                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
-                    break;
-                }
-                case ADC_PS_BY_32:
-                {
-                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
-                    CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
-                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
-                    break;
-                }
-                case ADC_PS_BY_64:
-                {
-                    CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
-                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
-                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
-                    break;
-                }
-                case ADC_PS_BY_128:
-                {
-                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
-                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
-                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
-                    break;
-                }
-                default:
-                {
-                    en_adc_status_retval = ADC_ERROR;
-                    break;
-                }
-            }
-
-            /* Setup VREF */
-            switch (st_l_adc_config.en_adc_vref_src)
+                    /* valid pre-scaler */
+                    ((ADC_CPU_FREQ_HZ / st_l_adc_config.en_adc_prescaler) < ADC_MAX_FREQ_HZ))
             {
-                case ADC_VREF_AREF:
-                {
-                    CLR_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS0_BIT);
-                    CLR_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS1_BIT);
-                    break;
-                }
-                case ADC_VREF_AVCC:
-                {
-                    SET_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS0_BIT);
-                    CLR_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS1_BIT);
-                    break;
-                }
-                case ADC_VREF_INTERNAL_VREF:
-                {
-                    SET_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS0_BIT);
-                    SET_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS1_BIT);
-                    break;
-                }
-                default:
-                {
-                    en_adc_status_retval = ADC_ERROR;
-                    break;
-                }
-            }
+                /* init ADC channel pin as input */
+                GPIO_setupPinDirection(ADC_PORT, st_l_adc_config.en_adc_channel, PIN_INPUT);
 
-            /* ADC Interrupt */
-            if(ADC_MODE_INTERRUPT == st_l_adc_config.en_adc_mode)
-            {
-                /* Enable global interrupt */
-                SET_BIT(AVR_SREG_REG, AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT);
+                /* SETUP PRESCALER */
+                switch (st_l_adc_config.en_adc_prescaler) {
 
-                /* Enable ADC interrupt */
-                SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADIE_BIT);
+                    case ADC_PS_BY_2:
+                    {
+                        CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
+                        CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
+                        CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
+                        break;
+                    }
+                    case ADC_PS_BY_4:
+                    {
+                        CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
+                        SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
+                        CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
+                        break;
+                    }
+                    case ADC_PS_BY_8:
+                    {
+                        SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
+                        SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
+                        CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
+                        break;
+                    }
+                    case ADC_PS_BY_16:
+                    {
+                        CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
+                        CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
+                        SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
+                        break;
+                    }
+                    case ADC_PS_BY_32:
+                    {
+                        SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
+                        CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
+                        SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
+                        break;
+                    }
+                    case ADC_PS_BY_64:
+                    {
+                        CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
+                        SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
+                        SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
+                        break;
+                    }
+                    case ADC_PS_BY_128:
+                    {
+                        SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS0_BIT);
+                        SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS1_BIT);
+                        SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADPS2_BIT);
+                        break;
+                    }
+                    default:
+                    {
+                        en_adc_status_retval = ADC_ERROR;
+                        break;
+                    }
+                }
+
+                /* Setup VREF */
+                switch (st_l_adc_config.en_adc_vref_src)
+                {
+                    case ADC_VREF_AREF:
+                    {
+                        CLR_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS0_BIT);
+                        CLR_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS1_BIT);
+                        break;
+                    }
+                    case ADC_VREF_AVCC:
+                    {
+                        SET_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS0_BIT);
+                        CLR_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS1_BIT);
+                        break;
+                    }
+                    case ADC_VREF_INTERNAL_VREF:
+                    {
+                        SET_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS0_BIT);
+                        SET_BIT(ADC_ADMUX_REG, ADC_ADMUX_REFS1_BIT);
+                        break;
+                    }
+                    default:
+                    {
+                        en_adc_status_retval = ADC_ERROR;
+                        break;
+                    }
+                }
+
+                /* ADC Interrupt */
+                if(ADC_MODE_INTERRUPT == st_l_adc_config.en_adc_mode)
+                {
+                    /* Enable global interrupt */
+                    SET_BIT(AVR_SREG_REG, AVR_SREG_GLOBAL_INTERRUPT_ENABLE_BIT);
+
+                    /* Enable ADC interrupt */
+                    SET_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADIE_BIT);
+                }
+                else
+                {
+                    /* Disable ADC interrupt */
+                    CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADIE_BIT);
+                }
+
             }
             else
             {
-                /* Disable ADC interrupt */
-                CLR_BIT(ADC_ADCSRA_REG, ADC_ADCSRA_ADIE_BIT);
+                en_adc_status_retval = ADC_ERROR;
             }
-
         }
         else
         {
-            en_adc_status_retval = ADC_ERROR;
+            /* Skip */
+            continue;
         }
     }
 
