@@ -9,7 +9,7 @@
 
 en_klswitch_t KL_Switch_init(){
     en_adc_status_t ADC_status = adc_init();
-    en_klswitch_t intial;
+    en_klswitch_t intial = KLSWITCH_OK;
 
     if(ADC_STATUS_TOTAL <= ADC_status)
     {

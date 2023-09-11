@@ -10,11 +10,11 @@ uint16_t_ throttle_readings;
 
 en_throttle_t throttle_init(){
     en_adc_status_t ADC_status = adc_init();
-    en_throttle_t intial;
+    en_throttle_t intial = THROTTLE_OK;
 
     if(ADC_STATUS_TOTAL <= ADC_status)
     {
-    intial = THROTTLE_ERROR;
+		intial = THROTTLE_ERROR;
     }
     else
     {
