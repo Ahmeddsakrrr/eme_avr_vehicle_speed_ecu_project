@@ -14,7 +14,7 @@
 #define ADC_MAX_FREQ_HZ         200000      /*  200  KHz */
 #define ADC_PORT                PORTA_ID
 
-#define ADC_IN_USE_CHANNELS     2
+#define ADC_IN_USE_CHANNELS     3
 
 /* Channel reading updated from ISR */
 #define INT_CHANNEL ADC_CH_1

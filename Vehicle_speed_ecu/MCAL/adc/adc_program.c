@@ -199,7 +199,7 @@ en_adc_status_t adc_read(en_adc_channel_t en_a_adc_channel)
 /*         WRITE_BIT(ADC_ADMUX_REG, ADC_ADMUX_MUX2_BIT, GET_BIT(en_a_adc_channel, ADC_ADMUX_MUX2_BIT)); */
 
         /* Clear MUX Bits */
-        ADC_ADMUX_REG &= 0xF0; /*  clear mux bits */
+        ADC_ADMUX_REG &= 0xE0; /*  clear mux bits */
 
         /* Set to match required ADC Channel */
         ADC_ADMUX_REG |= (en_a_adc_channel & 0x0F); /*  set to match required ADC channel */
