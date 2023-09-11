@@ -226,21 +226,33 @@ void timer1_ocra1_mode(en_timer1_mode_t en_timer1_mode_a_mode)
 	switch (en_timer1_mode_a_mode)
 	{
 		case OCRA_DISCONNECTED:
-		CLR_BIT(TCCR1A,COM1A0);
-		CLR_BIT(TCCR1A,COM1A1);
-		break;
+		{
+			CLR_BIT(TCCR1A,COM1A0);
+			CLR_BIT(TCCR1A,COM1A1);
+			break;
+		}
 		case OCRA_TOGGLE:
-		SET_BIT(TCCR1A,COM1A0);
-		CLR_BIT(TCCR1A,COM1A1);
-		break;
+		{
+			SET_BIT(TCCR1A,COM1A0);
+			CLR_BIT(TCCR1A,COM1A1);
+			break;
+		}
 		case OCRA_NON_INVERTING:
-		CLR_BIT(TCCR1A,COM1A0);
-		SET_BIT(TCCR1A,COM1A1);
-		break;
+		{
+			CLR_BIT(TCCR1A,COM1A0);
+			SET_BIT(TCCR1A,COM1A1);
+			break;
+		}
 		case OCRA_INVERTING:
-		SET_BIT(TCCR1A,COM1A0);
-		SET_BIT(TCCR1A,COM1A1);
-		break;
+		{
+			SET_BIT(TCCR1A,COM1A0);
+			SET_BIT(TCCR1A,COM1A1);
+			break;
+		}
+		default:
+		{
+			break;
+		}
 	}
 }
 void timer1_ocrb1_mode(en_timer1_mode_t  en_timer1_mode_a_mode)
@@ -248,21 +260,33 @@ void timer1_ocrb1_mode(en_timer1_mode_t  en_timer1_mode_a_mode)
 	switch (en_timer1_mode_a_mode)
 	{
 		case OCRB_DISCONNECTED:
-		CLR_BIT(TCCR1A,COM1B0);
-		CLR_BIT(TCCR1A,COM1B1);
-		break;
+		{
+			CLR_BIT(TCCR1A,COM1B0);
+			CLR_BIT(TCCR1A,COM1B1);
+			break;
+		}
 		case OCRB_TOGGLE:
-		SET_BIT(TCCR1A,COM1B0);
-		CLR_BIT(TCCR1A,COM1B1);
-		break;
+		{
+			SET_BIT(TCCR1A,COM1B0);
+			CLR_BIT(TCCR1A,COM1B1);
+			break;
+		}
 		case OCRB_NON_INVERTING:
-		CLR_BIT(TCCR1A,COM1B0);
-		SET_BIT(TCCR1A,COM1B1);
-		break;
+		{
+			CLR_BIT(TCCR1A,COM1B0);
+			SET_BIT(TCCR1A,COM1B1);
+			break;
+		}
 		case OCRB_INVERTING:
-		SET_BIT(TCCR1A,COM1B0);
-		SET_BIT(TCCR1A,COM1B1);
-		break;
+		{
+			SET_BIT(TCCR1A,COM1B0);
+			SET_BIT(TCCR1A,COM1B1);
+			break;
+		}
+		default:
+		{
+			break;
+		}
 	}
 }
 void timer1_input_capture_edge(en_icu_edge_t en_icu_edge_a_edge)
