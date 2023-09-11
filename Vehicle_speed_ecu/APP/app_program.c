@@ -203,10 +203,12 @@ void app_start(void)
                     }
                     else if(TRUE == bool_gs_speed_limit_enabled)
                     {
+						
 						/* todo retrieve limit from eeprom, if no data request user to input limit first */
 						en_l_eeprom_status_data = receive_limit_speed();
+						Led_TurnOn(LED_YELLOW_PORT,LED_YELLOW_PIN);
 						
-						if(EMPTY == en_l_eeprom_status_data)
+						if(EMPTY == en_l_eeprom_status_data || ERROR == en_l_eeprom_status_data)
 						{
 							/* Request set limit first from user */
 							app_switch_state(APP_STATE_SET_LIMIT);
@@ -742,13 +744,6 @@ static void send_limit_speed(uint8_t_ uint8_a_speed )
 		delay_us(5);
 		uint8_g_received_data=spi_transceiver(uint8_a_speed);
 	}
-	
-	
-	/* function test
-	Led_TurnOn(LED_BLUE_PORT,LED_BLUE_PIN);
-	delay_ms(500);
-	Led_TurnOff(LED_BLUE_PORT,LED_BLUE_PIN);
-	*/
 }
 
 
@@ -759,6 +754,7 @@ static en_eeprom_status_data_t receive_limit_speed()
 {
 	
 	en_eeprom_status_data_t en_eeprom_status_data_l_check=OK;
+	uint8_t_  uint8_l_count =0; 
 	/* transmit the start value to initiate the spi protocol ,and keep transmitting 
 	until  ACK =1 is received*/
 	
@@ -779,27 +775,41 @@ static en_eeprom_status_data_t receive_limit_speed()
 		uint8_g_received_data=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
 	}
 	
-	delay_us(150);
+	delay_ms(2);
 	/* received limited speed*/
 	uint8_g_limited_speed=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
-	/* received limited speed*/
-	while(((uint8_g_limited_speed<APP_CAR_SPD_LIMIT_MIN_SPEED) || uint8_g_limited_speed>APP_CAR_MAX_SPEED) &&(uint8_g_limited_speed!= EEPROM_DEFAULT_DATA))
-	{
-		delay_us(5);
-		uint8_g_limited_speed=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
-		
-	}
 	
 	/*check if the received data is equal the default of the eeprom if true it
 	 indicates that no speed has been set*/
 	if(uint8_g_limited_speed == EEPROM_DEFAULT_DATA)
 	{
-		en_eeprom_status_data_l_check = EMPTY;
+		en_eeprom_status_data_l_check=EMPTY;
 	}
+	
 	
 	else
 	{
-		/*do nothing*/
+		/* check if the received limited speed outside the valid range
+		(less than 30 or greater than 220) keep asking for a valid value*/  
+		while(((uint8_g_limited_speed<APP_CAR_SPD_LIMIT_MIN_SPEED)|| (uint8_g_limited_speed>APP_CAR_MAX_SPEED))&& (MAXMUM_COUNT!=uint8_l_count) )
+		{
+			
+			delay_us(5);
+			uint8_g_limited_speed=spi_transceiver(APP_COMM_CMD_REQUESTING_SPD_LIMIT);
+			uint8_l_count++;
+		}
+		/* check if the previous loop has entered five times that means the limited speed invalid */  
+		if(uint8_l_count ==MAXMUM_COUNT)
+		{
+			en_eeprom_status_data_l_check=ERROR;
+		}
+		else
+		{
+			/* do nothing*/
+		}
 	}
+	/* End spi communication */
+	uint8_g_received_data=spi_transceiver(APP_COMM_CMD_END);
+	
 	return en_eeprom_status_data_l_check;
 }
