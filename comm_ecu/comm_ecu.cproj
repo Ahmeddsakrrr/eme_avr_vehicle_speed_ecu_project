@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
@@ -119,6 +119,7 @@
       <Value>../HAL/eeprom</Value>
       <Value>../MCAL/i2c</Value>
       <Value>../../common_drivers/MCAL/gpio</Value>
+      <Value>../HAL/led</Value>
     </ListValues>
   </avrgcc.compiler.directories.IncludePaths>
   <avrgcc.compiler.optimization.level>Optimize debugging experience (-Og)</avrgcc.compiler.optimization.level>
@@ -162,6 +163,15 @@
     <Compile Include="HAL\eeprom\eeprom_Cfg.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="HAL\led\Led.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HAL\led\Led.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HAL\led\Led_Cfg.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
@@ -198,6 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HAL\eeprom" />
+    <Folder Include="HAL\led" />
     <Folder Include="MCAL" />
     <Folder Include="HAL" />
     <Folder Include="APP" />
