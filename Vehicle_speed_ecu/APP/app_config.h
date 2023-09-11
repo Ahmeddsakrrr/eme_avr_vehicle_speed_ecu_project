@@ -33,6 +33,7 @@
 #define APP_STR_ENTER_SPD_LIMIT         ((uint8_t_ *)"Enter speed limit:")
 #define APP_STR_SPD_LIMIT_PLACEHOLDER   ((uint8_t_ *)"_**")
 #define APP_STR_SAVING_LIMIT            ((uint8_t_ *)"Please wait...")
+#define APP_STR_LIMIT_SET_OK            ((uint8_t_ *)"Speed Limit Set")
 #define APP_STR_OPT_DASHBOARD           ((uint8_t_ *)"(1) Dashboard")
 #define APP_STR_OPT_SPEED_LIMIT_SW_OFF  ((uint8_t_ *)"(3) Limit OFF")
 #define APP_STR_OPT_SPEED_LIMIT_SW_ON   ((uint8_t_ *)"(3) Limit  ON")
@@ -70,4 +71,6 @@
 #define APP_CAR_BATTERY_TIMEOUT_IN_SEC  (10)
 #define APP_LDR_NIGHT_THRESHOLD         (30)
 #define APP_NOTIFY_BUZZ_DURATION_MS     (70)
+#define APP_NOTIFY_MSG_DURATION_MS		(1000)
+
 #endif /* APP_CONFIG_H_ */

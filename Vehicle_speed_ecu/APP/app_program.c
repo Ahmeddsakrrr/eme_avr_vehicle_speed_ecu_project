@@ -425,6 +425,17 @@ void app_start(void)
                             lcd_set_cursor(LCD_LINE2, LCD_COL2);
                             lcd_send_string(APP_STR_SAVING_LIMIT);
                             send_limit_speed(uint8_g_speed_limit);
+
+							/* limit set successfully */
+							lcd_shift_clear();
+							lcd_set_cursor(LCD_LINE2, LCD_COL2);
+							lcd_send_string(APP_STR_LIMIT_SET_OK);
+							lcd_print_number_from_end(uint8_g_speed_limit, LCD_LINE2, LCD_COL19);
+							APP_BUZZ(APP_NOTIFY_BUZZ_DURATION_MS);
+							delay_ms(APP_NOTIFY_MSG_DURATION_MS);
+
+							/* Go back to main screen UI */
+							app_switch_state(APP_STATE_MAIN);
 							
                         }
                         else
