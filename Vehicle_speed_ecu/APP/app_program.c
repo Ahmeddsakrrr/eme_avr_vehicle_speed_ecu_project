@@ -323,10 +323,6 @@ void app_start(void)
 						APP_UI_UPDATE_SPEED(APP_CAR_MAX_REVERSE_SPEED);
 					}
 				}
-				else if (en_gs_app_sub_state == APP_SUB_STATE_N)
-				{
-					APP_UI_CLEAR_SPEED();
-				}
 				else if (en_gs_app_sub_state == APP_SUB_STATE_D)
 				{
 
