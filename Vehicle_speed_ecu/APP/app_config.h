@@ -40,12 +40,14 @@
 #define APP_STR_OPT_SPEED_LIMIT_SW_ON   ((uint8_t_ *)"(3) Limit  ON")
 #define APP_STR_OPT_SET_SPEED_LIMIT     ((uint8_t_ *)"(2) Set Speed Limit")
 #define APP_STR_ERROR                   ((uint8_t_ *)"Error")
-#define APP_STR_L1_DASHBOARD_GEAR_P		((uint8_t_ *)"GEAR: P")
-#define APP_STR_L1_DASHBOARD_GEAR_N		((uint8_t_ *)"GEAR: N")
-#define APP_STR_L1_DASHBOARD_GEAR_R		((uint8_t_ *)"GEAR: R")
-#define APP_STR_L1_DASHBOARD_GEAR_D		((uint8_t_ *)"GEAR: D")
-#define APP_STR_L2_DASHBOARD_SPEED		((uint8_t_ *)"SPEED:   ")
-
+#define APP_STR_L2_DASHBOARD_GEAR_P		'P'
+#define APP_STR_L2_DASHBOARD_GEAR_N		'N'
+#define APP_STR_L2_DASHBOARD_GEAR_R		'R'
+#define APP_STR_L2_DASHBOARD_GEAR_D		'D'
+#define APP_STR_L1_DASHBOARD		    ((uint8_t_ *)"  GEAR       SPEED  ")
+#define APP_STR_GEAR_LCD_POS_ARG        LCD_LINE2,LCD_COL3
+#define APP_STR_GEAR_RATIO_LCD_POS_ARG  LCD_LINE2,LCD_COL4
+#define APP_STR_SPEED_LCD_POS_ARG       LCD_LINE2,LCD_COL16
 
 #define KPD_MAIN                '1'
 #define KPD_SET_LIMIT           '2'
@@ -70,6 +72,7 @@
 #define APP_D_GEARS_COUNT               (7)
 #define APP_HIGHEST_GEAR_SPEED          (120)   /* Considering Gears Ratio to be linear, gear 7 will start at speed 120 */
 #define APP_CAR_SPD_LIMIT_MIN_SPEED     (30)
+#define APP_CAR_MAX_REVERSE_SPEED       (30)
 #define APP_CAR_MAX_SPEED               (220)
 #define APP_CAR_BATTERY_TIMEOUT_IN_SEC  (10)
 #define APP_LDR_NIGHT_THRESHOLD         (30)

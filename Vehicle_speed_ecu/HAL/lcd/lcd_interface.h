@@ -95,7 +95,7 @@ void lcd_send_command(uint8_t_ u8_a_cmd);
  *
  * @param [in]u8_a_data single char ASCII data to show
  */
-void LCD_sendChar(uint8_t_ u8_a_data);
+void lcd_send_char(uint8_t_ u8_a_data);
 
 /**
  * @brief Displays a null-terminated string on the LCD screen.

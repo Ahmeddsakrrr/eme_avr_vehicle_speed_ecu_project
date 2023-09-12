@@ -104,7 +104,6 @@ void app_start(void)
 
         /* Update is night flag */
         bool_gs_is_night = APP_LDR_NIGHT_THRESHOLD > LDR_VALUE;
-//        lcd_print_number_from_end(LDR_VALUE, LCD_LINE3, LCD_COL19);
 
         /* Read KL15 Switch State */
         en_l_kl_state = KL_Switch_Read_state();
@@ -310,38 +309,30 @@ void app_start(void)
                 }
                 else if (en_gs_app_sub_state == APP_SUB_STATE_R)
                 {
-                    LCD_printNumber(uint16_throttle_g_readings,LCD_LINE3,LCD_COL0);
                     /*speed will be max 30 km/hr in reverse mood*/
-                    if(uint16_throttle_g_readings<30)
+                    if(uint16_throttle_g_readings <= APP_CAR_MAX_REVERSE_SPEED)
                     {
-                        LCD_printNumber(uint16_throttle_g_readings, LCD_LINE2, LCD_COL10);
+                        APP_UI_UPDATE_SPEED(uint16_throttle_g_readings);
                     }
-                    else if(uint16_throttle_g_readings>30)
+                    else
                     {
-                        LCD_printNumber(30,LCD_LINE2,LCD_COL10);
+                        APP_UI_UPDATE_SPEED(APP_CAR_MAX_REVERSE_SPEED);
                     }
                 }
                 else if (en_gs_app_sub_state == APP_SUB_STATE_N)
                 {
-//                    LCD_printNumber(uint16_throttle_g_readings, LCD_LINE2, LCD_COL9);
-                    LCD_printNumber(000, LCD_LINE2, LCD_COL9);
-
+                    APP_UI_CLEAR_SPEED();
                 }
                 else if (en_gs_app_sub_state == APP_SUB_STATE_D)
                 {
 
                     /*THE CLUTCH GEARS D1 D2 D3 D4 D5 D6 D7*/
 
-                    /* Clear old speed */
-                    lcd_set_cursor(LCD_LINE2, LCD_COL7);
-                    lcd_send_string(APP_STR_CLEAR_3_CHARS);
-
                     /* Update speed */
-                    /* print new speed w.r.t speed limit */
-                    lcd_print_number_from_end(uint16_l_current_car_speed,LCD_LINE2, LCD_COL9);
+                    APP_UI_UPDATE_SPEED(uint16_l_current_car_speed);
 
                     /* Print current gear */
-                    LCD_printNumber(uint8_l_current_car_gear,LCD_LINE1,LCD_COL7);
+                    APP_UI_UPDATE_GEAR_RATIO(uint8_l_current_car_gear);
                 }
                 break;
             }
@@ -367,21 +358,21 @@ void app_start(void)
                             uint8_g_speed_limit= CONVERT_CHAR_TO_DIGIT(uint8_g_kpd_value) * 100;
 
                             /* Send pressed char */
-                            LCD_sendChar(uint8_g_kpd_value);
+                            lcd_send_char(uint8_g_kpd_value);
                         }
                         else if(2 == uint8_gs_set_speed_index)
                         {
                             uint8_g_speed_limit+= CONVERT_CHAR_TO_DIGIT(uint8_g_kpd_value) * 10;
 
                             /* Send pressed char */
-                            LCD_sendChar(uint8_g_kpd_value);
+                            lcd_send_char(uint8_g_kpd_value);
                         }
                         else if(1 == uint8_gs_set_speed_index)
                         {
                             uint8_g_speed_limit+= CONVERT_CHAR_TO_DIGIT(uint8_g_kpd_value);
 
                             /* Send pressed char */
-                            LCD_sendChar(uint8_g_kpd_value);
+                            lcd_send_char(uint8_g_kpd_value);
                         }
 
                         /* Update index */
@@ -523,50 +514,44 @@ static void app_switch_state(en_app_state_t en_a_app_state)
         case     APP_STATE_MAIN :
             {
                 lcd_clear();
-                lcd_set_cursor(LCD_LINE0,LCD_COL0);
+                SHOW_TITLE_CENTERED_ON_LCD();
+                APP_UI_SHOW_DASHBOARD();
+
                 /*lcd_send_string(" P R N D");*/
-                if(en_gs_app_sub_state==APP_SUB_STATE_P){
-                    lcd_clear();
-                    lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                    lcd_send_string(APP_STR_L1_DASHBOARD_GEAR_P);
+                if(en_gs_app_sub_state==APP_SUB_STATE_P)
+                {
+                    APP_UI_UPDATE_GEAR(APP_STR_L2_DASHBOARD_GEAR_P);
 
-                    lcd_set_cursor(LCD_LINE2,LCD_COL0);
-                    lcd_send_string(APP_STR_L2_DASHBOARD_SPEED);
-                    LCD_printNumber(0,LCD_LINE2,LCD_COL10);
-                    /*PARK MODE INDICATION*/
+                    /* Init speed */
+                    APP_UI_UPDATE_SPEED(ZERO);
 
                     en_gs_app_state = APP_STATE_MAIN;
                     break;
                 }
 
-                else if(en_gs_app_sub_state == APP_SUB_STATE_N){
-                    lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                    lcd_send_string(APP_STR_L1_DASHBOARD_GEAR_N);
+                else if(en_gs_app_sub_state == APP_SUB_STATE_N)
+                {
+                    APP_UI_UPDATE_GEAR(APP_STR_L2_DASHBOARD_GEAR_N);
 
-                    lcd_set_cursor(LCD_LINE2,LCD_COL0);
-                    lcd_send_string(APP_STR_L2_DASHBOARD_SPEED);
-                    //lcd_print_number(uint16_g_last_reading[ADC_CH_0],LCD_LINE1,LCD_COL10);
-                    en_gs_app_state = APP_STATE_MAIN;
-                    break;
-                }
-
-                else if(en_gs_app_sub_state == APP_SUB_STATE_R){
-                    lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                    lcd_send_string(APP_STR_L1_DASHBOARD_GEAR_R);
-
-                    lcd_set_cursor(LCD_LINE2,LCD_COL0);
-                    lcd_send_string(APP_STR_L2_DASHBOARD_SPEED);
+                    /* Init speed */
+                    APP_UI_UPDATE_SPEED(ZERO);
 
                     en_gs_app_state = APP_STATE_MAIN;
                     break;
                 }
 
-                else if(en_gs_app_sub_state == APP_SUB_STATE_D){
-                    lcd_set_cursor(LCD_LINE1,LCD_COL0);
-                    lcd_send_string(APP_STR_L1_DASHBOARD_GEAR_D);
+                else if(en_gs_app_sub_state == APP_SUB_STATE_R)
+                {
 
-                    lcd_set_cursor(LCD_LINE2,LCD_COL0);
-                    lcd_send_string(APP_STR_L2_DASHBOARD_SPEED);
+                    APP_UI_UPDATE_GEAR(APP_STR_L2_DASHBOARD_GEAR_R);
+
+                    en_gs_app_state = APP_STATE_MAIN;
+                    break;
+                }
+
+                else if(en_gs_app_sub_state == APP_SUB_STATE_D)
+                {
+                    APP_UI_UPDATE_GEAR(APP_STR_L2_DASHBOARD_GEAR_N);
 
                     en_gs_app_state = APP_STATE_MAIN;
                     break;

@@ -113,7 +113,7 @@ void lcd_send_command(uint8_t_ u8_a_cmd) {
  *
  * @param [in]u8_a_data single char ASCII data to show
  */
-void LCD_sendChar(uint8_t_ u8_a_data)
+void lcd_send_char(uint8_t_ u8_a_data)
 {
 	
 	/*  Select Data Register */
@@ -175,7 +175,7 @@ void lcd_send_string(uint8_t_ * u8Ptr_a_str)
 			u8Ptr_a_str++;
 			continue;
 		}
-		LCD_sendChar(*u8Ptr_a_str);
+        lcd_send_char(*u8Ptr_a_str);
         u8Ptr_a_str++;
         u8_gs_cursor++;
 
@@ -234,7 +234,7 @@ uint8_t_ lcd_store_custom_character(uint8_t_ * u8_a_pattern, uint8_t_ u8_a_locat
 
     /*  store custom character bitmap bytes */
     for (int i = 0; i < LCD_CGRAM_LOC_SIZE; ++i) {
-        LCD_sendChar(u8_a_pattern[i]);
+        lcd_send_char(u8_a_pattern[i]);
     }
 
     return STD_OK;
@@ -294,7 +294,7 @@ void lcd_print_number_from_end(uint16_t_ uint16_a_number, uint8_t_ lcd_line, uin
         lcd_set_cursor(lcd_line, lcd_col);
 
         digit = uint16_a_number % 10;
-        LCD_sendChar(digit + '0'); /*  print ASCII digit */
+        lcd_send_char(digit + '0'); /*  print ASCII digit */
         lcd_col--;
     } while (uint16_a_number /= 10);
 

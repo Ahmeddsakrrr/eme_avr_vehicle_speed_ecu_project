@@ -47,6 +47,17 @@
 #define APP_PARSE_SPEED(speed_val, limit_enabled, max_speed_limit) (limit_enabled == TRUE ? (speed_val > max_speed_limit ? max_speed_limit : speed_val) : (speed_val))
 #define APP_PARSE_GEAR(speed_val) (((speed_val * APP_D_GEARS_COUNT / APP_HIGHEST_GEAR_SPEED) + ONE) > APP_D_GEARS_COUNT ? APP_D_GEARS_COUNT : ((speed_val * APP_D_GEARS_COUNT / APP_HIGHEST_GEAR_SPEED) + ONE))
 
+#define APP_UI_SHOW_DASHBOARD()     lcd_set_cursor(LCD_LINE1,LCD_COL0); \
+lcd_send_string(APP_STR_L1_DASHBOARD)
+
+#define APP_UI_CLEAR_SPEED()    lcd_set_cursor(LCD_LINE2, LCD_COL14);\
+lcd_send_string(APP_STR_CLEAR_3_CHARS)
+#define APP_UI_UPDATE_SPEED(speed)   APP_UI_CLEAR_SPEED(); \
+lcd_print_number_from_end(speed,APP_STR_SPEED_LCD_POS_ARG)
+#define APP_UI_UPDATE_GEAR(gear_char)   lcd_set_cursor(APP_STR_GEAR_LCD_POS_ARG); \
+lcd_send_char(gear_char)
+#define APP_UI_UPDATE_GEAR_RATIO(gear_ratio) lcd_print_number_from_end(gear_ratio, APP_STR_GEAR_RATIO_LCD_POS_ARG)
+
 /* Communication commands */
 #define   APP_COMM_CMD_ACK      1
 #define   APP_COMM_CMD_NO_ACK   0
