@@ -597,8 +597,7 @@ static void app_switch_state(en_app_state_t en_a_app_state)
             }
 			case APP_STATE_GET_LIMIT:
 			{
-				/* get speed limit from 2nd ECU */
-				/* todo */
+                /* Idle */
 				break;
 			}
 			case APP_STATE_TOTAL:

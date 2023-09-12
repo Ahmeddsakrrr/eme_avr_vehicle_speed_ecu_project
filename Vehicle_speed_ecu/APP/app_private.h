@@ -45,7 +45,7 @@
 
 /* Returns speed that complies with speed limit if enabled */
 #define APP_PARSE_SPEED(speed_val, limit_enabled, max_speed_limit) (limit_enabled == TRUE ? (speed_val > max_speed_limit ? max_speed_limit : speed_val) : (speed_val))
-#define APP_PARSE_GEAR(speed_val) (((APP_HIGHEST_GEAR_SPEED / speed_val) + ONE) > APP_D_GEARS_COUNT ? APP_D_GEARS_COUNT : ((APP_HIGHEST_GEAR_SPEED / speed_val) + ONE))
+#define APP_PARSE_GEAR(speed_val) (((speed_val * APP_D_GEARS_COUNT / APP_HIGHEST_GEAR_SPEED) + ONE) > APP_D_GEARS_COUNT ? APP_D_GEARS_COUNT : ((speed_val * APP_D_GEARS_COUNT / APP_HIGHEST_GEAR_SPEED) + ONE))
 
 /* Communication commands */
 #define   APP_COMM_CMD_ACK      1
