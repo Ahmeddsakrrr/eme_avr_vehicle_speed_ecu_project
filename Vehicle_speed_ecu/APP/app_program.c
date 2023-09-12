@@ -506,7 +506,14 @@ static void app_switch_state(en_app_state_t en_a_app_state)
             lcd_send_string(APP_STR_OPT_SET_SPEED_LIMIT);
 
             lcd_set_cursor(LCD_LINE3, LCD_COL0);
-            lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_OFF);
+            if(FALSE == bool_gs_speed_limit_enabled)
+            {
+                lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_OFF);
+            }
+            else
+            {
+                lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_ON);
+            }
 
             /* Update global app en_a_app_state flag */
             en_gs_app_state = APP_STATE_SHOW_OPTIONS;
