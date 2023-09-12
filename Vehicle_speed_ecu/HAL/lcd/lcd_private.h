@@ -45,12 +45,12 @@
 #define LCD_CMD_DCB  CONCAT4(0b00001,LCD_OPT_DISP, LCD_OPT_CURSOR, LCD_OPT_BLINK)
 
 /* Delays */
-#define LCD_US_DELAY_PULSE  1000  /*    1 us */
-#define LCD_US_DELAY_HOLD   1000 /*  200 us */
-#define LCD_MS_DELAY_CHAR   25 /*  25 ms */
-#define LCD_MS_DELAY_STORE  2 /*  2 ms */
-#define LCD_MS_DELAY_INIT   10 /*  10 ms */
-#define LCD_MS_DELAY_SHIFT  20 /*  20 ms */
+#define LCD_US_DELAY_PULSE  1000    /*    1 us   */
+#define LCD_US_DELAY_HOLD   1000   /* 200 us    */
+#define LCD_MS_DELAY_CHAR   1     /*  1 ms     */
+#define LCD_MS_DELAY_STORE  2    /*  2 ms     */
+#define LCD_MS_DELAY_INIT   10  /*  10 ms    */
+#define LCD_MS_DELAY_SHIFT  20 /*  20 ms    */
 
 /* Private Addresses */
 #define LCD_LINES_BASE_RAM_LOC 0x80

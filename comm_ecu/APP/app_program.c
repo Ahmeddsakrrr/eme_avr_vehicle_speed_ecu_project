@@ -24,7 +24,6 @@ void app_init()
 
 	/* Init EEPROM */
 	Eeprom_Init();
-	
 }
 
 void app_start()
