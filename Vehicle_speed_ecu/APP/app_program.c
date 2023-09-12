@@ -114,7 +114,7 @@ void app_start(void)
         uint16_throttle_g_readings = throttle_read_state();
         uint16_l_current_car_speed = APP_PARSE_SPEED(uint16_throttle_g_readings,
                                                      bool_gs_speed_limit_enabled,
-                                                     APP_CAR_MAX_SPEED);
+                                                     uint8_g_limited_speed);
 
         uint8_l_current_car_gear   = APP_PARSE_GEAR(uint16_l_current_car_speed);
 
@@ -382,7 +382,6 @@ void app_start(void)
                         if(ZERO == uint8_gs_set_speed_index )
                         {
                             /* Send speed limit to the slave microcontroller using SPI */
-                            /* todo show please wait screen */
                             lcd_clear();
                             lcd_set_cursor(LCD_LINE2, LCD_COL2);
                             lcd_send_string(APP_STR_SAVING_LIMIT);
@@ -524,9 +523,6 @@ static void app_switch_state(en_app_state_t en_a_app_state)
 
                     /* Init speed */
                     APP_UI_UPDATE_SPEED(ZERO);
-
-                    en_gs_app_state = APP_STATE_MAIN;
-                    break;
                 }
 
                 else if(en_gs_app_sub_state == APP_SUB_STATE_N)
@@ -535,29 +531,19 @@ static void app_switch_state(en_app_state_t en_a_app_state)
 
                     /* Init speed */
                     APP_UI_UPDATE_SPEED(ZERO);
-
-                    en_gs_app_state = APP_STATE_MAIN;
-                    break;
                 }
 
                 else if(en_gs_app_sub_state == APP_SUB_STATE_R)
                 {
-
                     APP_UI_UPDATE_GEAR(APP_STR_L2_DASHBOARD_GEAR_R);
-
-                    en_gs_app_state = APP_STATE_MAIN;
-                    break;
                 }
 
                 else if(en_gs_app_sub_state == APP_SUB_STATE_D)
                 {
-                    APP_UI_UPDATE_GEAR(APP_STR_L2_DASHBOARD_GEAR_N);
-
-                    en_gs_app_state = APP_STATE_MAIN;
-                    break;
+                    APP_UI_UPDATE_GEAR(APP_STR_L2_DASHBOARD_GEAR_D);
                 }
-                break;
 
+                break;
             }
 
             case APP_STATE_SET_LIMIT:
