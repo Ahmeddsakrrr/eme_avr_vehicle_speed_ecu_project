@@ -337,10 +337,10 @@ void app_start(void)
 
                     /* Update speed */
                     /* print new speed w.r.t speed limit */
-                    lcd_print_number_from_end(uint16_l_current_car_speed,LCD_LINE2, LCD_COL11);
+                    lcd_print_number_from_end(uint16_l_current_car_speed,LCD_LINE2, LCD_COL9);
 
                     /* Print current gear */
-                    LCD_printNumber(uint16_l_current_car_speed,LCD_LINE1,LCD_COL10);
+                    LCD_printNumber(uint8_l_current_car_gear,LCD_LINE1,LCD_COL7);
                 }
                 break;
             }
