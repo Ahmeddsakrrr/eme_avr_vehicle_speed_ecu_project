@@ -30,13 +30,13 @@ static boolean  bool_gs_speed_limit_enabled = FALSE;
 /* Time elapsed */
 
 /* App global variables */
-static uint8_t_     uint8_g_received_data       =   ZERO                ;
-static uint8_t_     uint8_g_kpd_value           =   NULL                ;
-static uint32_t_    uint16_throttle_g_readings                          ;
-static uint8_t_     uint8_gs_seconds_elapsed    =   ZERO                ;
-static uint8_t_     uint8_gs_set_speed_index    =   3                   ;
-static uint8_t_     uint8_g_speed_limit         =   APP_CAR_MAX_SPEED   ;
-static uint8_t_		uint8_g_limited_speed		=	ZERO;
+static uint8_t_     uint8_g_received_data       =   ZERO                        ;
+static uint8_t_     uint8_g_kpd_value           =   NULL                        ;
+static uint32_t_    uint16_throttle_g_readings                                  ;
+static uint8_t_     uint8_gs_seconds_elapsed    =   ZERO                        ;
+static uint8_t_     uint8_gs_set_speed_index    =   APP_CAR_SPEED_DIGITS_COUNT  ;
+static uint8_t_     uint8_g_speed_limit         =   APP_CAR_MAX_SPEED           ;
+static uint8_t_		uint8_g_limited_speed		=	ZERO                        ;
 
 void app_init(void)
 {
@@ -93,9 +93,6 @@ void app_start(void)
 
 	/* local variables */
 	en_read_states_t en_l_kl_state;
-
-	/*get keypad current value*/
-	uint8_g_kpd_value = keypad_read();
 
 	while (TRUE)
 	{
@@ -274,6 +271,8 @@ void app_start(void)
 					delay_ms(1);
 					/* Exit and go back to options screen */
 					app_switch_state(APP_STATE_SHOW_OPTIONS);
+                    /* Break current procedure */
+                    break;
 				}
 				else if(KPD_CAR_MODE_P == uint8_g_kpd_value)
 				{
@@ -353,7 +352,7 @@ void app_start(void)
 					if(uint8_g_kpd_value >= '0' && uint8_g_kpd_value <= '9')
 					{
 						/* Parse Numbers */
-						if(3 == uint8_gs_set_speed_index)
+						if(APP_CAR_SPEED_DIGITS_COUNT == uint8_gs_set_speed_index)
 						{
 							uint8_g_speed_limit= CONVERT_CHAR_TO_DIGIT(uint8_g_kpd_value) * 100;
 
@@ -508,8 +507,6 @@ static void app_switch_state(en_app_state_t en_a_app_state)
 				lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_ON);
 			}
 
-			/* Update global app en_a_app_state flag */
-			en_gs_app_state = APP_STATE_SHOW_OPTIONS;
 			break;
 		}
 		case     APP_STATE_MAIN :
@@ -519,7 +516,7 @@ static void app_switch_state(en_app_state_t en_a_app_state)
 			APP_UI_SHOW_DASHBOARD();
 
 			/*lcd_send_string(" P R N D");*/
-			if(en_gs_app_sub_state==APP_SUB_STATE_P)
+			if(APP_SUB_STATE_P == en_gs_app_sub_state)
 			{
 				APP_UI_UPDATE_GEAR(APP_STR_L2_DASHBOARD_GEAR_P);
 
@@ -527,7 +524,7 @@ static void app_switch_state(en_app_state_t en_a_app_state)
 				APP_UI_UPDATE_SPEED(ZERO);
 			}
 
-			else if(en_gs_app_sub_state == APP_SUB_STATE_N)
+			else if(APP_SUB_STATE_N == en_gs_app_sub_state)
 			{
 				APP_UI_UPDATE_GEAR(APP_STR_L2_DASHBOARD_GEAR_N);
 
@@ -535,12 +532,11 @@ static void app_switch_state(en_app_state_t en_a_app_state)
 				APP_UI_UPDATE_SPEED(ZERO);
 			}
 
-			else if(en_gs_app_sub_state == APP_SUB_STATE_R)
+			else if(APP_SUB_STATE_R == en_gs_app_sub_state)
 			{
 				APP_UI_UPDATE_GEAR(APP_STR_L2_DASHBOARD_GEAR_R);
 			}
-
-			else if(en_gs_app_sub_state == APP_SUB_STATE_D)
+			else if(APP_SUB_STATE_D == en_gs_app_sub_state)
 			{
 				APP_UI_UPDATE_GEAR(APP_STR_L2_DASHBOARD_GEAR_D);
 			}
@@ -566,7 +562,7 @@ static void app_switch_state(en_app_state_t en_a_app_state)
 			lcd_set_cursor(LCD_LINE3,LCD_COL8);
 
 			/* reset index flag */
-			uint8_gs_set_speed_index = 3;
+			uint8_gs_set_speed_index = APP_CAR_SPEED_DIGITS_COUNT;
 			break;
 		}
 		case APP_STATE_GET_LIMIT:

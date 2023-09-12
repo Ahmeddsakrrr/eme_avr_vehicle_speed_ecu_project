@@ -69,6 +69,7 @@
 #define KPD_OK                          'K'
 #define KPD_EXIT                        'X'
 
+#define APP_CAR_SPEED_DIGITS_COUNT      (3)
 #define APP_D_GEARS_COUNT               (7)
 #define APP_HIGHEST_GEAR_SPEED          (120)   /* Considering Gears Ratio to be linear, gear 7 will start at speed 120 */
 #define APP_CAR_SPD_LIMIT_MIN_SPEED     (30)
