@@ -80,9 +80,13 @@ void app_start(void)
 {
 	/* Declare local variables */
 	en_eeprom_status_data_t en_l_eeprom_status_data;
+    uint8_t_ uint8_l_current_car_gear;
+    uint16_t_ uint16_l_current_car_speed;
 
 	/* Init local variables */
 	en_l_eeprom_status_data = EMPTY;
+    uint16_l_current_car_speed = ZERO;
+    uint8_l_current_car_gear = ONE;
 
     /* Switch app to initial state - CAR OFF */
     app_switch_state(APP_STATE_INIT_UI);
@@ -109,6 +113,10 @@ void app_start(void)
         uint8_g_kpd_value = keypad_read();
 
         uint16_throttle_g_readings = throttle_read_state();
+        uint16_l_current_car_speed = APP_PARSE_SPEED(uint16_throttle_g_readings,
+                                                     bool_gs_speed_limit_enabled,
+                                                     APP_CAR_MAX_SPEED);
+        uint8_l_current_car_gear   = APP_PARSE_GEAR(uint16_l_current_car_speed);
 
         switch (en_gs_app_state)
         {
@@ -190,21 +198,19 @@ void app_start(void)
                 }
                 else if(KPD_SPEED_LIMIT_TOGGLE == uint8_g_kpd_value)
                 {
-                    /* Toggle speed limit */
-                    bool_gs_speed_limit_enabled = (!bool_gs_speed_limit_enabled);
-
-                    if(FALSE == bool_gs_speed_limit_enabled)
+                    if(TRUE == bool_gs_speed_limit_enabled)
                     {
                         /* INFORM THAT SPEED LIMIT IS OFF */
                         lcd_set_cursor(LCD_LINE3,LCD_COL0);
                         lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_OFF);
                         APP_BUZZ(APP_NOTIFY_BUZZ_DURATION_MS);
-                        /* Return back to the options menu */
+
+                        /* Disable speed limit */
+                        bool_gs_speed_limit_enabled = FALSE;
                     }
-                    else if(TRUE == bool_gs_speed_limit_enabled)
+                    else if(FALSE == bool_gs_speed_limit_enabled)
                     {
 						
-						/* todo retrieve limit from eeprom, if no data request user to input limit first */
 						en_l_eeprom_status_data = receive_limit_speed();
 						Led_TurnOn(LED_YELLOW_PORT,LED_YELLOW_PIN);
 						
@@ -219,7 +225,10 @@ void app_start(void)
 							lcd_set_cursor(LCD_LINE3,LCD_COL0);
 							lcd_send_string(APP_STR_OPT_SPEED_LIMIT_SW_ON);
 							APP_BUZZ(APP_NOTIFY_BUZZ_DURATION_MS);
-						}
+
+                            /* Enable speed limit */
+                            bool_gs_speed_limit_enabled = TRUE;
+                        }
                         
                     }
                 }
@@ -317,62 +326,21 @@ void app_start(void)
                     LCD_printNumber(000, LCD_LINE2, LCD_COL9);
 
                 }
-                else if (en_gs_app_sub_state ==APP_SUB_STATE_D)
+                else if (en_gs_app_sub_state == APP_SUB_STATE_D)
                 {
 
-                   // LCD_printNumber(((uint32_t_)uint16_g_last_reading[ADC_CH_0]*5000/1024),3,0);
-                              /*THE CLUTCH GEARS D1 D2 D3 D4 D5 D6 D7*/
-                    if(uint16_throttle_g_readings>=0 && uint16_throttle_g_readings<=30 && uint16_throttle_g_readings<=uint8_g_speed_limit)
-                    {
-                        LCD_printNumber(1,LCD_LINE1,LCD_COL10);
-                        LCD_printNumber(0,LCD_LINE2,LCD_COL10);
-                        LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL11);
+                    /*THE CLUTCH GEARS D1 D2 D3 D4 D5 D6 D7*/
 
-                    }
+                    /* Clear old speed */
+                    lcd_set_cursor(LCD_LINE1, LCD_COL7);
+                    lcd_send_string(APP_STR_CLEAR_3_CHARS);
 
-                    else if(uint16_throttle_g_readings>30 && uint16_throttle_g_readings<=40 && uint16_throttle_g_readings<=uint8_g_speed_limit)
-                    {
-                        LCD_printNumber(2,LCD_LINE1,LCD_COL10);
-                        LCD_printNumber(0,LCD_LINE2,LCD_COL10);
-                        LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL11);
-                    }
+                    /* Update speed */
+                    /* print new speed w.r.t speed limit */
+                    lcd_print_number_from_end(uint16_l_current_car_speed,LCD_LINE2, LCD_COL11);
 
-                    else if(uint16_throttle_g_readings>40 && uint16_throttle_g_readings<=60 && uint16_throttle_g_readings<=uint8_g_speed_limit)
-                    {
-                        LCD_printNumber(3,LCD_LINE1,LCD_COL10);
-                        LCD_printNumber(0,LCD_LINE2,LCD_COL10);
-                        LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL11);
-                    }
-
-                    else if(uint16_throttle_g_readings>60 && uint16_throttle_g_readings<=80 && uint16_throttle_g_readings<=uint8_g_speed_limit)
-                    {
-                        LCD_printNumber(4,LCD_LINE1,LCD_COL10);
-                        LCD_printNumber(0,LCD_LINE2,LCD_COL10);
-                        LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL11);
-                    }
-
-                    else if(uint16_throttle_g_readings>80 && uint16_throttle_g_readings<=100 && uint16_throttle_g_readings<=uint8_g_speed_limit)
-                    {
-                        LCD_printNumber(5,LCD_LINE1,LCD_COL10);
-                        LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL10);
-                    }
-
-                    else if(uint16_throttle_g_readings>100 && uint16_throttle_g_readings<=150 && uint16_throttle_g_readings<=uint8_g_speed_limit)
-                    {
-
-                        LCD_printNumber(6,LCD_LINE1,LCD_COL10);
-                        LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL10);
-                    }
-
-                    else if (uint16_throttle_g_readings>150 && uint16_throttle_g_readings<=200 && uint16_throttle_g_readings<=uint8_g_speed_limit)
-                    {
-                        LCD_printNumber(7,LCD_LINE1,LCD_COL10);
-                        LCD_printNumber(uint16_throttle_g_readings,LCD_LINE2,LCD_COL10);
-                    }
-                    else
-                    {
-                        /* Do Nothing */
-                    }
+                    /* Print current gear */
+                    LCD_printNumber(uint16_l_current_car_speed,LCD_LINE1,LCD_COL10);
                 }
                 break;
             }

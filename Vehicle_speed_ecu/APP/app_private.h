@@ -41,6 +41,12 @@
                                 delay_ms(BUZZ_DURATION);\
                                 buzz_off()
 
+#define APP_STR_CLEAR_3_CHARS		((uint8_t_ *)"   ")
+
+/* Returns speed that complies with speed limit if enabled */
+#define APP_PARSE_SPEED(speed_val, limit_enabled, max_speed_limit) (limit_enabled == TRUE ? (speed_val > max_speed_limit ? max_speed_limit : speed_val) : (speed_val))
+#define APP_PARSE_GEAR(speed_val) (((APP_HIGHEST_GEAR_SPEED / speed_val) + ONE) > APP_D_GEARS_COUNT ? APP_D_GEARS_COUNT : ((APP_HIGHEST_GEAR_SPEED / speed_val) + ONE))
+
 /* Communication commands */
 #define   APP_COMM_CMD_ACK      1
 #define   APP_COMM_CMD_NO_ACK   0

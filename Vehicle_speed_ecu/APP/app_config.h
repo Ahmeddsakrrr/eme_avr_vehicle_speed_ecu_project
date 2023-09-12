@@ -50,8 +50,8 @@
 #define KPD_MAIN                '1'
 #define KPD_SET_LIMIT           '2'
 #define KPD_SPEED_LIMIT_TOGGLE  '3'
-#define SPEED_LIMIT_OFF     (0)
-#define SPEED_LIMIT_ON      (1)
+#define SPEED_LIMIT_OFF         (0)
+#define SPEED_LIMIT_ON          (1)
 
 /* Keypad Layout
  *
@@ -67,6 +67,8 @@
 #define KPD_OK                          'K'
 #define KPD_EXIT                        'X'
 
+#define APP_D_GEARS_COUNT               (7)
+#define APP_HIGHEST_GEAR_SPEED          (120)   /* Considering Gears Ratio to be linear, gear 7 will start at speed 120 */
 #define APP_CAR_SPD_LIMIT_MIN_SPEED     (30)
 #define APP_CAR_MAX_SPEED               (220)
 #define APP_CAR_BATTERY_TIMEOUT_IN_SEC  (10)

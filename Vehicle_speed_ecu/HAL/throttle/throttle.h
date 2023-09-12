@@ -12,7 +12,6 @@
 #include "adc_interface.h"
 
 #define THROTTLE_ADC_CHANNEL ADC_CH_7
-extern uint16_t_ throttle_readings;
 
 typedef enum
 {

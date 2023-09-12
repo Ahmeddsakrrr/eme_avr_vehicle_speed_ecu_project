@@ -46,6 +46,7 @@ typedef uint8_t_ boolean;
 #define NULL_PTR        ((void *) 0)
 
 #define ZERO (0)
+#define ONE (1)
 #define NOT_INIT (-1)
 
 #define INCREMENT(x) (++x)
