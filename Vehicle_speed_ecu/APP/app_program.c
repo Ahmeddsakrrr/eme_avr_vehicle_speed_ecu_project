@@ -116,6 +116,7 @@ void app_start(void)
         uint16_l_current_car_speed = APP_PARSE_SPEED(uint16_throttle_g_readings,
                                                      bool_gs_speed_limit_enabled,
                                                      APP_CAR_MAX_SPEED);
+
         uint8_l_current_car_gear   = APP_PARSE_GEAR(uint16_l_current_car_speed);
 
         switch (en_gs_app_state)
@@ -332,7 +333,7 @@ void app_start(void)
                     /*THE CLUTCH GEARS D1 D2 D3 D4 D5 D6 D7*/
 
                     /* Clear old speed */
-                    lcd_set_cursor(LCD_LINE1, LCD_COL7);
+                    lcd_set_cursor(LCD_LINE2, LCD_COL7);
                     lcd_send_string(APP_STR_CLEAR_3_CHARS);
 
                     /* Update speed */
