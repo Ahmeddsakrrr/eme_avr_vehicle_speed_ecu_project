@@ -5,8 +5,23 @@
  *  Author: Sakr
  */ 
 #include "throttle.h"
-/*global variable used for measuring the readings of the padel*/
+/*global variable used for measuring the readings of the throttle pedal */
 uint16_t_ throttle_readings;
+
+
+/* Minimum ADC Reading */
+#define THROTTLE_MIN_ADC_VAL        (450)
+
+/* Maximum ADC Reading */
+#define THROTTLE_MAX_ADC_VAL        (4200)
+
+/* Max user throttle value to map readings to it */
+#define THROTTLE_MAX_SPEED_MAPPING  (220)
+
+/* Maps a value to a different linear scale */
+#define MAP_VALUE(value, max_val, max_desired_output) ((value * max_desired_output) / max_val)
+
+#define THROTTLE_ADC_READING ((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)
 
 en_throttle_t throttle_init(){
     en_adc_status_t ADC_status = adc_init();
@@ -29,45 +44,26 @@ en_throttle_t throttle_init(){
     }
     return intial;
 }
+
 uint16_t_ throttle_read_state(void){
 
     adc_read(THROTTLE_ADC_CHANNEL);
 
-    if(((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024) >= 0 && ((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)<=400)
+    if(THROTTLE_ADC_READING < THROTTLE_MIN_ADC_VAL)
     {
-        throttle_readings=0;
+        /* output Zero */
+        throttle_readings = ZERO;
+    }
+    else if(THROTTLE_ADC_READING > THROTTLE_MAX_ADC_VAL)
+    {
+        /* output max throttle value */
+        throttle_readings = THROTTLE_MAX_SPEED_MAPPING;
+    }
+    else
+    {
+        /* ADC value in range - process and map it accordingly */
+        throttle_readings = MAP_VALUE((THROTTLE_ADC_READING - THROTTLE_MIN_ADC_VAL), THROTTLE_MAX_ADC_VAL, THROTTLE_MAX_SPEED_MAPPING);
     }
 
-    else if(((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)>=450 && ((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)<=700 )
-    {
-        throttle_readings=30;
-    }
-    else if(((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)>=800 && ((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)<=1200 )
-    {
-    throttle_readings=40;
-    }
-
-    else if(((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)>=1600 && ((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)<=2000 )
-    {
-        throttle_readings=60;
-    }
-
-    else if(((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)>=2100 && ((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)<=3200)
-    {
-        throttle_readings=80;
-    }
-
-    else if(((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)>=3300 && ((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)<=3800 )
-    {
-        throttle_readings=100;
-    }
-    else if(((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)>=3900 && ((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024)<=4200 )
-    {
-        throttle_readings=150;
-    }
-    else if (((uint32_t_)uint16_g_last_reading[THROTTLE_ADC_CHANNEL]*5000/1024) >= 4200)
-    {
-        throttle_readings=200;
-    }
     return throttle_readings;
 }
